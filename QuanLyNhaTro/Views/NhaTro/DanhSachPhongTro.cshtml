@@ -1,0 +1,83 @@
+﻿@model IEnumerable<QuanLyNhaTro.Phong>
+
+@{
+    ViewBag.Title = "Danh Sách Phòng Trọ";
+    Layout = "~/Views/Shared/_LayoutAdmin2.cshtml";
+}
+    @{ 
+        int id = Model.First().id_NT;
+    }
+    <a href="/NhaTro/ThemPhongTro?id=@Model.FirstOrDefault().id_NT">Thêm nhà trọ</a>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Tên Phòng
+        </th>
+        <th>
+            Số Người
+        </th>
+        <th>
+            Diện Tích
+        </th>
+        <th>
+            Gác
+        </th>
+        <th>
+            Nội Thất
+        </th>
+        <th>
+            Trạng Thái
+        </th>
+        <th>
+            Ghi Chú
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ten_P)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.songuoi_P)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dientich_P)
+            </td>
+			<td>
+				@{ if (item.gac_P == 0)
+					{<div>Không</div>}
+					if (item.gac_P == 1)
+					{<div>Có</div>}
+				}
+			</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.noithat_P)
+            </td>
+			<td>
+				@{ if (item.trangthai_P == 0)
+					{<div>Còn trống</div>}
+					if (item.trangthai_P == 1)
+					{<div>Không trống</div>}
+				}
+			</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ghichu_P)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "CapNhatPhongTro", new { id = item.id_P }) |
+                @*<a href="XoaPhongTro?id=@item.id_P"><img src="~/Content/Images/Icons/delete.png" style="width:40px;height:40px;border-radius:10px;" /></a>*@
+                @Html.ActionLink("Delete", "XoaPhongTro", new { id = item.id_P })
+            </td>
+        </tr>
+    }
+
+
+</table>
+
+
+

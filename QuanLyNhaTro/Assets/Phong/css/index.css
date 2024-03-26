@@ -1,0 +1,20 @@
+﻿.room__info-list{
+
+}
+.room__info-item-gac p{
+	display: flex;
+	justify-content: space-around;
+}
+.icon{
+	width: 12px;
+}
+.button a {
+	text-decoration: none;
+	align-items: center;
+	margin: 10px;
+	padding: 8px;
+}
+.button:hover a{
+	background-color: aqua;
+	color: #000;
+}

@@ -1,0 +1,130 @@
+﻿@model IEnumerable<QuanLyNhaTro.NhaTro>
+
+@{
+	ViewBag.Title = "ChuTroIndex";
+	Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<style>
+	.option_NhaTro {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, 0);
+		transition: 0.4s linear;
+		opacity: 0;
+	}
+
+	.item-card {
+		transition: 0.4s linear;
+	}
+	.item-card .content{
+		transition: 0.4s linear;
+	}
+
+	.edit_NhaTro:hover {
+		cursor: pointer;
+	}
+
+	.delete_NhaTro:hover {
+		cursor: pointer;
+	}
+
+	.item-card:hover .content {
+		opacity: 0.6;
+		transform: scale(0.9);
+	}
+
+		.item-card:hover  .option_NhaTro {
+			opacity: 1 !important;
+		}
+
+
+	.addNhaTro {
+		width: 100px;
+		display: block;
+		margin: 0 auto;
+		transition: linear 1s;
+	}
+
+		.addNhaTro:hover {
+			cursor: pointer;
+			transform: scale(0.9);
+		}
+</style>
+<div style="margin-top:200px;" class="row row-cols-1 row-cols-md-3 g-4">
+	@foreach (var item in Model)
+	{
+	<div class="col item-card">
+		<div class="content card h-70">
+			<img class="card-img-top" src="~/Content/Images/@item.HinhAnhs.FirstOrDefault().url_HA" alt="anh_nha_tro" style="height: 300px">
+			<div class="card-body">
+				<h5 class="card-title">@item.ten_NT</h5>
+				<p class="card-text">@item.diachi_NT</p>
+				<p class="card-text">Giá: @item.gia_NT</p>
+				<p class="card-text">Số phòng: @item.sophong_NT</p>
+			</div>
+		</div>
+		<div class="option_NhaTro">
+			<img class="edit_NhaTro" id="@item.id_NT" style="height:40px; display:inline-block;margin-right:10px" src="~/Assets/Home/img/icon_edit.png" />
+			<img class="delete_NhaTro" id="@item.id_NT" style="height:40px;display:inline-block" src="~/Assets/Home/img/icon_delete_NhaTro.png" />
+		</div>
+	</div>
+	}
+
+</div>
+<img class="addNhaTro" src="~/Assets/Home/img/icon_add_NhaTro.png" />
+<div class="modal fade " id="modalEditNhatro" aria-hidden="true" aria-labelledby="modalEditNhatroLabel" tabindex="-1">
+</div>
+<div class="modal fade" id="modalEditTrangThaiPhong" aria-hidden="true" aria-labelledby="modalEditTrangThaiPhongLabel" tabindex="-1">
+</div>
+<div class="modal fade" id="modalHinhAnh" aria-hidden="true" aria-labelledby="modalEditHinhAnhLabel" tabindex="-1">
+</div>
+
+<script src="~/Scripts/jquery-3.6.4.js"></script>
+<script>
+	$(document).ready(function () {
+		$('.edit_NhaTro').click(function () {
+			const idNT = $(this).attr('id')
+			$.ajax({
+				url: "/Home/GetModalNhaTro",
+				type: "post",
+				data: {
+					id_NT: idNT,
+				},
+				async: false,
+				success: function (data) {
+					$('#modalEditNhatro').replaceWith($(data).find('#modalEditNhatro'))
+					$('#modalEditTrangThaiPhong').replaceWith($(data).find('#modalEditTrangThaiPhong'))
+					$('#modalHinhAnh').replaceWith($(data).find('#modalHinhAnh'))
+				}
+			})
+			$('#modalEditNhatro').modal('show')
+		})
+	})
+
+	$(document).ready(function () {
+		$('.addNhaTro').click(function () {
+			$.ajax({
+				url: "/Home/GetModalNhaTro",
+				type: "post",
+				data: {
+					id_NT: null,
+				},
+				async: false,
+				success: function (data) {
+					$('#modalEditNhatro').replaceWith($(data).find('#modalEditNhatro'))
+				}
+			})
+			$('#modalEditNhatro').modal('show')
+		})
+	})
+
+	$(document).ready(function () {
+		$('.delete_NhaTro').click(function () {
+			ShowConfirmBox($(this).attr('id'))
+		})
+	})
+
+</script>
+

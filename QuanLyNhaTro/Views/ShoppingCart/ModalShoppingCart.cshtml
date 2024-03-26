@@ -1,0 +1,258 @@
+﻿@model IEnumerable<QuanLyNhaTro.GioHang>
+
+@{
+	QuanLyNhaTroEntities db = new QuanLyNhaTroEntities();
+	var taiKhoan = Session["taikhoan"] as TaiKhoan;
+	var kh = db.KhachHangs.FirstOrDefault(s => s.userName == taiKhoan.userName);
+	var giohang = from s in db.GioHangs where (s.id_KH == kh.id_KH) select s;
+}
+
+<div class="modal fade" id="shoppingcart-modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true" style="height: auto" role="dialog">
+	<div class="modal-dialog modal-xl" id="modal_cart">
+		<div class="modal-content pl-4">
+			<div class="modal-header">
+				<h5 class="modal-title" id="ModalLabel">Giỏ hàng</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="card">
+					<div class="row">
+						<div class="col-md-8 cart" id="list_itemCart" style=" max-height: 485.087px;overflow-y: scroll;">
+							@foreach (var item in giohang)
+							{
+								if (item.Phong.trangthai_P == 0)
+								{
+									<div class="row">
+										<div class="row main align-items-center">
+											<div class="col-2">
+												<input class="checkbox_item" type="checkbox" name="itemCartCheckbox" value="[@item.id_P,@item.Phong.id_NT,@item.Phong.NhaTro.gia_NT]" />
+											</div>
+											<div class="col-2"><img class="img-fluid" src="~/Content/Images/@item.Phong.NhaTro.HinhAnhs.FirstOrDefault().url_HA" alt=""></div>
+											<div class="col-4">
+												<div class="row text-muted">@item.Phong.NhaTro.ten_NT</div>
+												<div class="row ">Số thứ tự phòng: @item.Phong.ten_P</div>
+											</div>
+											<div class="col row">
+												<div class="col gia_item">@item.Phong.NhaTro.gia_NT VND</div>
+												<div class="col-2"><button class="delete_itemCart" id="@item.id_P" style="border:none;"><img style="width:30px" src="~/Assets/Home/img/icon_remove_in_cart.png" /></button></div>
+											</div>
+										</div>
+									</div>
+								}
+								else
+								{
+									<div class="row">
+										<div class="row main align-items-center">
+											<div class="col-2 sold-out">
+												<img src="~/Assets/Home/img/icon_sold_out.png" style="width:40px; margin:0 auto; display: block"/>
+											</div>
+											<div class="col-2 sold-out"><img class="img-fluid" src="~/Content/Images/@item.Phong.NhaTro.HinhAnhs.FirstOrDefault().url_HA" alt=""></div>
+											<div class="col-4">
+												<div class="row text-muted sold-out">@item.Phong.NhaTro.ten_NT</div>
+												<div class="row sold-out">Số thứ tự phòng: @item.Phong.ten_P</div>
+											</div>
+											<div class="col row">
+												<div class="col gia_item sold-out">@item.Phong.NhaTro.gia_NT VND</div>
+												<div class="col-2"><button class="delete_itemCart" id="@item.id_P" style="border:none;"><img style="width:30px" src="~/Assets/Home/img/icon_remove_in_cart.png" /></button></div>
+											</div>
+										</div>
+									</div>
+								}
+
+							}
+							<script>
+								var allCheckboxs = $('input[name="itemCartCheckbox"]')
+								function KiemTraSoLuong() {
+									var soluong = 0
+									var allCheckboxs = $('input[name="itemCartCheckbox"]')
+									allCheckboxs.each(function () {
+										if ($(this).prop('checked')) {
+											soluong++;
+										}
+									})
+									$('.soluong').text('Số lượng: ' + soluong)
+								}
+
+								function KiemTraGia() {
+									var gia = 0
+									var allCheckboxs = $('input[name="itemCartCheckbox"]')
+									allCheckboxs.each(function () {
+										if ($(this).prop('checked')) {
+											var json = JSON.parse($(this).val())
+											gia = gia + json[2]
+										}
+
+									})
+									$('.gia').text(gia)
+								}
+
+								function KiemTraTongGia() {
+									function TinhGia() {
+										var gia = 0;
+										var allCheckboxs = $('input[name="itemCartCheckbox"]')
+										allCheckboxs.each(function () {
+											if ($(this).prop('checked')) {
+												var json = JSON.parse($(this).val())
+												gia = gia + json[2]
+											}
+
+										})
+										return gia;
+									}
+									var gia = TinhGia();
+									var value = parseFloat($('.loaithanhtoan').val())
+									gia = gia * value;
+									$('.tonggia').text(gia)
+								}
+								var allCheckboxs = $('input[name="itemCartCheckbox"]')
+								allCheckboxs.change(function () {
+									KiemTraSoLuong()
+									KiemTraGia()
+									KiemTraTongGia()
+								});
+								$('.loaithanhtoan').change(function () {
+									KiemTraTongGia()
+								})
+
+
+								//Bắt sự kiện xoá item khỏi giỏ hàng
+								$(document).ready(function () {
+									$('.delete_itemCart').click(function () {
+										var id_P = $(this).attr('id')
+										var item = $(this).parent().parent().parent()
+										$.ajax({
+											url: '/ShoppingCart/DeleteItemInCart',
+											type: 'post',
+											data: {
+												id_P: id_P
+											},
+											async: false,
+											success: function (data) {
+												if (data.result == 0) {
+													AddToast('Xoá thành công!')
+													item.remove()
+												}
+												else
+													if (data.result == 1)
+														AddToast('Thất bại!')
+													else
+														AddToast('Sản phẩm không còn tồn tại trong giỏ hàng!')
+											}
+										})
+										KiemTraSoLuong()
+										KiemTraGia()
+										KiemTraTongGia()
+									})
+								})
+								$(document).ready(function () {
+									$('.btn_thanhtoan').click(function () {
+										var allCheckboxs = $('input[name="itemCartCheckbox"]:checked')
+										if (allCheckboxs.length == 0) {
+											AddToast('Chọn ít nhất 1 phòng trọ trước khi thao tác đặt phòng!')
+											return;
+										}
+										var loaicoc = Number(parseFloat($('.loaithanhtoan').val())*100)
+										var arrP = new Array()
+										var arrGia = new Array()
+										allCheckboxs.each(function () {
+											var val = JSON.parse($(this).val())
+											arrP.push(val[0])
+											arrGia.push(val[2])
+										})
+										jQuery.ajaxSettings.traditional = true
+										$.ajax({
+											url: '/DonDat/CheckStatusPhong',
+											type: 'post',
+											data: {
+												arrP: arrP
+											},
+											async: false,
+											success: function (data) {
+												if (data.status == 0) {
+													AddDonDat(loaicoc, arrP, arrGia)
+												}
+												else
+													if (data.status == 2) {
+														AddToast("" + data.ten_P + " của nhà trọ " + data.ten_NT + " không còn trống, vui lòng xoá khỏi giỏ hàng!")
+													}
+													else {
+														AddToast('Lỗi không xác định!')
+													}
+
+											}
+										})
+
+									})
+								})
+
+								function AddDonDat(loaicoc,arrP, arrGia) {
+									$.ajax({
+										url: '/DonDat/AddDonDat',
+										type: 'post',
+										data: { loaicoc: loaicoc },
+										async: false,
+										success: function (data) {
+											if (data.status == 0) {
+												AddChiTietDonDat(data.id_DD, arrP, arrGia)
+											}
+											else
+												AddToast('Tạo đơn đặt thất bại!')
+										}
+									})
+								}
+								function AddChiTietDonDat(id_DD, arrP, arrGia) {
+									$.ajax({
+										url: '/DonDat/AddChiTietDonDat',
+										type: 'post',
+										data: {
+											id_DD: id_DD,
+											arrP: arrP,
+											arrGia: arrGia
+										},
+										success: function (data) {
+											if (data == 0) {
+												AddToast('Đặt thành công!')
+												loadDonDatModal()
+												$('#shoppingcart-modal').modal('hide')
+												$('#dondat-modal').modal('show')
+											}
+											else
+												AddToast('Đặt thất bại!')
+										}
+									})
+								}
+							</script>
+						</div>
+						<div class="col-md-4 summary">
+							<div><h5 class="mt-2"><b>Tổng cộng</b></h5></div>
+							<hr>
+							<div class="row">
+								<div class="col soluong" style="padding-left:0;">Số lượng: 0</div>
+								<div class="col text-right gia">0 VND</div>
+							</div>
+							<form>
+								<p>Loại thanh toán</p>
+								<select name="loaithanhtoan" class="loaithanhtoan">
+									<option class="text-muted" value="0.1" selected>Cọc 10%</option>
+									<option class="text-muted" value="0.2">Cọc 20%</option>
+									<option class="text-muted" value="0.3">Cọc 30%</option>
+									<option class="text-muted" value="1">Thanh toán tất cả</option>
+								</select>
+								<p>Mã giảm giá</p>
+								<input id="code" placeholder="Enter your code">
+							</form>
+							<div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+								<div class="col">Tổng giá:</div>
+								<div class="col text-right tonggia">0 VND</div>
+							</div>
+							<button class="btn btn_thanhtoan">Thanh toán</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer" style="padding-top:2px; margin-top:0px">
+				<button type="button" class="btn btn-secondary mt-0" data-bs-dismiss="modal">Đóng</button>
+			</div>
+		</div>
+	</div>
+</div>

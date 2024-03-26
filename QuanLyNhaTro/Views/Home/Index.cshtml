@@ -1,0 +1,172 @@
+﻿@model IEnumerable<QuanLyNhaTro.NhaTro>
+@{
+	ViewBag.Title = "Nhà trọ";
+	Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+
+<style>
+	.load-more {
+		margin: 15px 25px;
+		cursor: pointer;
+		padding: 10px 0;
+		text-align: center;
+		font-weight: bold;
+	}
+</style>
+
+<img src="~/fonts/glyphicons-halflings-regular.svg" />
+
+<!--/ Intro Single star /-->
+<section class="intro-single">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-lg-8">
+				<div class="title-single-box">
+					<h1 class="title-single"></h1>
+					<span class="color-text-a">Nhà trọ</span>
+				</div>
+			</div>
+			<div class="col-md-12 col-lg-4">
+				<nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="#">Trang chủ</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							Nhà trọ
+						</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+</section>
+<!--/ Intro Single End /-->
+<!--/ Property Grid Star /-->
+<section class="property-grid grid" id="list_product">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="grid-option">
+					<form>
+						<select class="custom-select">
+							<option selected value="{&quot;field&quot;:&quot;gia_NT&quot;,&quot;flag&quot;:0}">Giá cao đến thấp</option>
+							<option value="{&quot;field&quot;:&quot;gia_NT&quot;,&quot;flag&quot;:1}">Giá thấp đến cao</option>
+							<option value="{&quot;field&quot;:&quot;dienTich_NT&quot;,&quot;flag&quot;:0}">Diện tích cao đến thấp</option>
+							<option value="{&quot;field&quot;:&quot;dienTich_NT&quot;,&quot;flag&quot;:1}">Diện tích thấp đến cao</option>
+						</select>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="lst_item">
+			@foreach (var item in Model)
+			{
+				<div class="col-md-4 item">
+					<div class="card-box-a card-shadow">
+						<div class="img-box-a">
+							<img src="~/Content/Images/@item.HinhAnhs.FirstOrDefault().url_HA" alt="" class="img-a img-fluid" style="width:100%; height:300px">
+						</div>
+						<div class="card-overlay">
+							<div class="card-overlay-a-content">
+								<div class="card-header-a">
+									<h2 class="card-title-a">
+										<a href="">
+											@Html.ActionLink(@item.ten_NT, "ViewProduct", new { id = @item.id_NT })
+											<br />
+											<p style="font-size:16px">@item.diachi_NT</p>
+										</a>
+									</h2>
+								</div>
+								<div class="card-body-a">
+									<div class="price-box d-flex">
+										<span class="price-a">Giá thuê: @item.gia_NT</span>
+									</div>
+									<a href="property-single.html" class="link-a">
+										@Html.ActionLink("Thông tin chi tiết", "ViewProduct", new { id = @item.id_NT })
+										<span class="ion-ios-arrow-forward"></span>
+									</a>
+								</div>
+								<div class="card-footer-a">
+									<ul class="card-info d-flex justify-content-around">
+										<li>
+											<h4 class="card-info-title">Diện tích</h4>
+											<span>
+												@item.dienTich_NT
+												<sup>2</sup>
+											</span>
+										</li>
+										<li>
+											<h4 class="card-info-title">Gác</h4>
+											@{ 
+												if (item.gac_NT == 1) { <span>Có</span>}
+												else {<span>Không</span> }
+											}
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+			<div class="load-more" style="display: none;">
+				<img style="height:50px; width:50px" src="~/Assets/Home/img/loading_content.gif" />
+			</div>
+		</div>
+	</div>
+</section>
+
+<script src="~/Scripts/jquery-3.6.4.js"></script>
+<script>
+var load = false;
+$(document).ready(function () {
+	$(window).scroll(function () {
+		var item = $('.item').length;
+		if ((($(document).height()) - $(window).scrollTop() - $(window).height() - 525 < 1) && (item <= 23) && load == false) {
+			load = true;
+			$('.load-more').show();
+			var fields = JSON.parse($('.custom-select').val());
+			loaddata(item, fields);
+		}
+	})
+})
+
+	function loaddata(item, fields) {
+		$('.load-more').show();
+	$.ajax({
+		type: 'POST',
+		url: '/Home/GetData',
+		data: {
+			numrow: item,
+			field: fields.field,
+			flag: fields.flag,
+		},
+		success: function (html) {
+			$('.load-more').remove();
+			@*$('#lst_item').append($(html).find('#lst_item').children()).fadeIn(1000);*@
+			$(html).find('#lst_item').children().css('display', 'none').appendTo($('#lst_item')).slideDown(1200);
+			load = false;
+		}
+	})
+}
+
+$('.custom-select').on('change', function () {
+	var type = JSON.parse($('.custom-select').val());
+	$('.load-more').show();
+	$('.item').remove();
+	$.ajax({
+		type: 'POST',
+		url: 'Home/GetDataSelected',
+		data: {
+			field: type.field,
+			flag: type.flag,
+		},
+		success: function (html) {
+			$('.load-more').remove();
+			$(html).find('#lst_item').children().css('display', 'none').appendTo($('#lst_item')).slideDown(1200);
+		}
+	})
+})
+</script>

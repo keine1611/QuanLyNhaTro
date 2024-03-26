@@ -1,0 +1,24 @@
+﻿@model QuanLyNhaTro.TaiKhoan
+
+@{
+	ViewBag.Title = "Xoá tài khoản";
+	Layout = "~/Views/Shared/_LayoutAdmin2.cshtml";
+}
+
+<h2>Xóa tài khoản</h2>
+<div>
+    <h3>Bạn có thực sự muốn xóa?</h3>
+    <div>
+        <hr />
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+
+            <h4 style="color:red">Xác nhận xóa!</h4>
+            <div class="form-actions no-color">
+                <input type="submit" value="Xóa" class="btn btn-default" /> 
+                <a href="/Accounts/TaiKhoan" class="btn btn-primary">Hủy</a>
+            </div>
+        }
+    </div>
+</div>

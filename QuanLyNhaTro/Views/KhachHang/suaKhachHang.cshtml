@@ -1,0 +1,90 @@
+﻿@model QuanLyNhaTro.KhachHang
+
+@{
+	ViewBag.Title = "Sửa khách hàng";
+	Layout = "~/Views/Shared/_LayoutAdmin2.cshtml";
+}
+<h2>Sửa thông tin khách hàng</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id_KH)
+
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Tên tài khoản</label>
+
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+            @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Họ và tên</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.hoten_KH, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.hoten_KH, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Điện thoại</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.sodt_KH, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.sodt_KH, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class = "control-label col-md-2" >Giới tính</label>
+        <div class="col-md-10">
+            Nam
+            @Html.RadioButtonFor(model => model.gioitinh_KH, "1")
+            Nữ 
+            @Html.RadioButtonFor(model => model.gioitinh_KH, "0")
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Email</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.email_KH, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.email_KH, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">CCCD</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cccd_KH, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.cccd_KH, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Địa chỉ</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.diachi_KH, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.diachi_KH, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+            <a class="btn btn-primary" href="/Accounts/TaiKhoan">Hủy</a>
+
+        </div>
+
+    </div>
+</div>
+}
+

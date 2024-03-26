@@ -1,0 +1,74 @@
+﻿@model IEnumerable<QuanLyNhaTro.DonDatPhong>
+
+
+<div class="modal-body body_modaldondat" style="max-height: 70vh;overflow-y: scroll;">
+	<table style="display: block; margin:0 auto; padding: 0px;width:auto">
+		<thead>
+			<tr>
+				<td style="padding: 20px; text-align:center"></td>
+				<td style="padding: 20px; text-align:center">Mã đơn</td>
+				<td style="padding: 20px; text-align: center">Ngày đặt</td>
+				<td style="padding: 20px; text-align: center">Trạng thái</td>
+				<td style="padding: 20px; text-align: center">Loại cọc</td>
+				<td style="padding: 20px; text-align: center">Đơn giá</td>
+				<td style="padding: 20px; text-align: center">Đã thanh toán</td>
+				<td style="padding: 20px; text-align: center">Phải trả thêm</td>
+			</tr>
+		</thead>
+		<tbody>
+			@{
+				foreach (var item in Model)
+				{
+						<tr class="row_dondat" id="@item.id_DDP">
+							<td style="padding: 20px; text-align: center"><img style="width:40px" src="~/Assets/Home/img/bill_icon.png"/></td>
+							<td style="padding: 20px; text-align: center">@item.id_DDP</td>
+							<td style="padding: 20px; text-align: center">@item.ngaydat_DDP.ToString()</td>
+							@if (item.trangthai_DDP == 0)
+							{
+								<td style="padding: 20px; text-align: center"><img style="width:20px" src="~/Assets/Home/img/icon_dondat_check.png" /></td>
+							}
+							else
+							{
+								<td style="padding: 20px; text-align: center"><img style="width:20px" src="~/Assets/Home/img/icon_dondat_uncheck.png" /></td>
+							}
+							<td style="padding: 20px; text-align: center">@item.loaidatcoc_NT %</td>
+							@{ var sum = 0;
+								foreach (var s in item.ChiTietDonDats)
+								{
+									sum = sum + s.dongia_CTDD;
+								}
+								<td style="padding: 20px; text-align: center">@sum VND</td>
+							}
+							@{
+								var dathanhtoan = sum * item.loaidatcoc_NT / 100;
+							}
+							<td style="padding: 20px; text-align: center">@dathanhtoan VND</td>
+							@{
+								var conlai = sum - sum * item.loaidatcoc_NT / 100;
+							}
+							<td style="padding: 20px; text-align: center">@conlai VND</td>
+						</tr>
+				}
+			}
+		</tbody>
+	</table>
+	<script>
+		$(document).ready(function () {
+			$('.row_dondat').click(function () {
+				var id_DD = $(this).attr('id')
+				$.ajax({
+					url: '/DonDat/ModalChiTietDonDat',
+					type: 'post',
+					data: { id_DD: id_DD, },
+					async: false,
+					success: function (data) {
+						$('#chitietdondat-modal').replaceWith($(data).find('#chitietdondat-modal'))
+						$('#dondat-modal').modal('hide')
+						$('#chitietdondat-modal').modal('show')
+					}
+				})
+			})
+		})
+	</script>
+
+</div>

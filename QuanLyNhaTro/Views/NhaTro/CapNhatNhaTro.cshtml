@@ -1,0 +1,240 @@
+﻿@model QuanLyNhaTro.NhaTro
+
+@{
+	ViewBag.Title = "Cập Nhật Nhà Trọ";
+	Layout = "~/Views/Shared/_LayoutAdmin2.cshtml";
+}
+
+<div class="col-md-8 col-md-offset-0 text-primary" style="margin:0 auto">
+	<h2>Cập Nhật Nhà Trọ</h2>
+</div>
+
+<hr />
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					ID Nhà Trọ
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.id_NT, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+					@Html.ValidationMessageFor(model => model.id_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Tên Nhà Trọ
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.ten_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.ten_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					CCCD
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.CCCD_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.CCCD_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Địa Chỉ
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.diachi_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.diachi_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Email
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.email_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.email_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Số Phòng
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.sophong_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.sophong_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Số Điện Thoại
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.sodt_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.sodt_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Ghi Chú
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.ghichu_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.ghichu_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					User Name
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+					@Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Diện Tích (m<sup>2</sup>)
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.dienTich_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.dienTich_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Gác
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.gac_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.gac_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Giá (VND)
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.gia_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.gia_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Tải Ảnh Mới
+				</label>
+				<div class="col-sm-9">
+					<input type="file" accept="image/*" name="fileUpload" />
+				</div>
+			</div>
+		</div>
+
+		<button name=" @Model.id_NT " id="LoadHA" type="button">
+			Xem danh sách ảnh
+		</button>
+
+
+
+		<div class="col-md-8 col-md-offset-4">
+			<div class="form-group row">
+				<div class="col-md-6" style="margin:0 auto">
+					<button class="btn btn-primary btn-icon-text btn-rounded">
+						@Html.ActionLink("Xem danh sách Nhà Trọ", "DanhSachNhaTro", "", new { @style = "color:#fff" })
+					</button>
+					<input type="submit" value="Lưu thay đổi" class="btn btn-primary btn-icon-text btn-rounded" />
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<!-- Modal -->
+}
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Xem danh sách ảnh</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				...
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Dong</button>
+				@*<button type="button" class="btn btn-primary">Luu</button>*@
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.6.4.js"></script>
+<script>
+	$("#LoadHA").click(function () {
+		var id = $(this).attr('name')
+		console.log(id)
+		$.ajax({
+			url: "/NhaTro/LoadModalHinhAnh",
+			type: "POST",
+			data: { id: id },
+			async: false,
+			success: function (data) {
+				$('.modal-body').replaceWith($(data).find('.modal-body'))
+			}
+		});
+		$('#exampleModalCenter').modal("show")
+	})
+
+</script>

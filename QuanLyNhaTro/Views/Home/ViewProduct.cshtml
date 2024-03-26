@@ -1,0 +1,300 @@
+﻿@model QuanLyNhaTro.NhaTro
+
+@{
+	ViewBag.Title = "Nhà trọ " + @Html.DisplayFor(model => model.ten_NT);
+	Layout = "~/Views/Shared/_LayoutHome.cshtml";
+
+}
+<!--/ Intro Single star /-->
+<section class="intro-single">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-lg-8">
+				<div class="title-single-box">
+					<h1 class="title-single">
+						@Html.DisplayFor(model => model.ten_NT)
+					</h1>
+					<span class="color-text-a">@Html.DisplayFor(model => model.diachi_NT)</span>
+				</div>
+			</div>
+			<div class="col-md-12 col-lg-4">
+				<nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							@Html.ActionLink("Trang chủ", "Index")
+						</li>
+						<li class="breadcrumb-item">
+							@Html.ActionLink("Nhà trọ", "Index")
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							@Html.DisplayFor(model => model.ten_NT)
+						</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+</section>
+<!--/ Intro Single End /-->
+<!--/ Property Single Star /-->
+<section class="property-single nav-arrow-b">
+	<div class="container">
+		<div class="row">
+			<link href="~/Assets/Home/" />
+			<div class="col-sm-12">
+				<div id="property-single-carousel" class="owl-carousel owl-arrow gallery-property" style="width:900px; max-height: 500px; margin: 30px auto">
+					@foreach (var item in Model.HinhAnhs)
+					{
+						<div class="carousel-item-b" style="max-height: 800px">
+							<img style="object-fit: fill;width:900px; height:500px" src="~/Content/Images/@item.url_HA" alt="">
+						</div>
+					}
+				</div>
+				<div class="row justify-content-between">
+					<div class="col-md-5 col-lg-4">
+						<div class="property-price d-flex justify-content-center foo">
+							<div class="card-header-c d-flex">
+								<div class="card-box-ico">
+									<span class="ion-money">
+
+									</span>
+								</div>
+								<div class="card-title-c align-self-center">
+
+									<h5 class="title-c"> @Html.DisplayFor(model => model.gia_NT)/tháng</h5>
+								</div>
+							</div>
+						</div>
+						<div class="property-summary">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="title-box-d section-t4">
+										<h3 class="title-d">Thông tin cơ bản</h3>
+									</div>
+								</div>
+							</div>
+							<div class="summary-list">
+								<ul class="list">
+									<li class="d-flex justify-content-between">
+										<strong>Địa chỉ:</strong>
+										<span>@Html.DisplayFor(model => model.diachi_NT)</span>
+									</li>
+									<li class="d-flex justify-content-between">
+										<strong>Loại:</strong>
+										<span>Nhà trọ</span>
+									</li>
+									<li class="d-flex justify-content-between">
+										<strong>Trang thái:</strong>
+										<span>Cho thuê</span>
+									</li>
+									<li class="d-flex justify-content-between">
+										<strong>Diện tích:</strong>
+										<span>
+											@Html.DisplayFor(model => model.dienTich_NT)m
+											<sup>2</sup>
+										</span>
+									</li>
+									<li class="d-flex justify-content-between">
+										<strong>Gác:</strong>
+										<span>@Html.DisplayFor(model => model.gac_NT)</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-7 col-lg-7 section-md-t3">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="title-box-d">
+									<h3 class="title-d">Mô tả</h3>
+								</div>
+							</div>
+						</div>
+						<div class="property-description">
+							<p class="description color-text-a">
+								@Html.DisplayFor(model => model.ghichu_NT)
+							</p>
+
+						</div>
+						<div class="row section-t3">
+							<div class="col-sm-12">
+								<div class="title-box-d">
+									<h3 class="title-d">Các phòng trọ còn trống</h3>
+								</div>
+							</div>
+						</div>
+						<div class="amenities-list color-text-a">
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">Tên phòng</th>
+										<th scope="col">Diện tích(m2)</th>
+										<th scope="col">Gác</th>
+										<th scope="col">Số người</th>
+										<th scope="col">Ghi chú</th>
+										<th scope="col">Trạng thái</th>
+										<th scope="col"></th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var item in Model.Phongs.OrderBy(s => s.trangthai_P))
+									{
+										if (item.trangthai_P == 1)
+										{
+											<tr style="background-color: #ddd; cursor: not-allowed;">
+												<td style="text-align: center; vertical-align: middle ">@item.ten_P</td>
+												<td style="text-align: center; vertical-align: middle ">@item.dientich_P</td>
+												@{
+													if (item.gac_P == 1)
+													{
+														<td style="text-align: center; vertical-align: middle ">Có</td>
+													}
+
+													else
+													{
+														<td style="text-align: center; vertical-align: middle ">Không</td>
+													}
+												}
+												<td style="text-align:center; vertical-align: middle">@item.songuoi_P</td>
+												<td style="text-align:center; vertical-align: middle">@item.ghichu_P</td>
+												@{ if (item.trangthai_P == 1)
+													{
+														<td style="text-align:center; vertical-align: middle">Có người đặt</td>
+													}
+													else
+													{
+														<td style="text-align: center; vertical-align: middle ">Còn trống</td>
+													}
+												}
+												<td><button class="btn_addToCart" value="@item.id_P" style="border: none; background-color: #ddd; cursor: not-allowed; pointer-events: none;"><img style="object-fit: cover; width:35px" src="~/Assets/Home/img/icon_sold_out.png" /></button></td>
+											</tr>
+										}
+										else
+										{
+											<tr>
+												<td style="text-align: center; vertical-align: middle ">@item.ten_P</td>
+												<td style="text-align: center; vertical-align: middle ">@item.dientich_P</td>
+												@{
+													if (item.gac_P == 1)
+													{
+														<td style="text-align: center; vertical-align: middle ">Có</td>
+													}
+
+													else
+													{
+														<td style="text-align: center; vertical-align: middle ">Không</td>
+													}
+												}
+												<td style="text-align:center; vertical-align: middle">@item.songuoi_P</td>
+												<td style="text-align:center; vertical-align: middle">@item.ghichu_P</td>
+												@{ if (item.trangthai_P == 1)
+													{
+														<td style="text-align:center; vertical-align: middle">Có người đặt</td>
+													}
+													else
+													{
+														<td style="text-align: center; vertical-align: middle ">Còn trống</td>
+													}
+												}
+												<td><button class="btn_addToCart" value="@item.id_P" style="border:none"><img style="object-fit: cover; width:35px" src="~/Assets/Home/img/icon_add_to_cart.png" /></button></td>
+											</tr>
+										}
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="row section-t3">
+					<div class="col-sm-12">
+						<div class="title-box-d">
+							<h3 class="title-d">Liên hệ chủ trọ</h3>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-lg-4">
+						<img src="~/Assets/Home/img/agent-4.jpg" alt="" class="img-fluid">
+					</div>
+					<div class="col-md-6 col-lg-4">
+						<div class="property-agent">
+							<h4 class="title-agent">@Html.DisplayFor(model => model.ten_NT)</h4>
+							<p class="color-text-a">
+								GioiThieu
+							</p>
+							<ul class="list-unstyled">
+								<li class="d-flex justify-content-between">
+									<strong>Số điên thoại:</strong>
+									<span class="color-text-a">@Html.DisplayFor(model => model.sodt_NT)</span>
+								</li>
+							</ul>
+							<div class="socials-a">
+								<ul class="list-inline">
+									<li class="list-inline-item">
+										<a href="#">
+											<i class="fa fa-facebook" aria-hidden="true"></i>
+										</a>
+									</li>
+									<li class="list-inline-item">
+										<a href="#">
+											<i class="fa fa-twitter" aria-hidden="true"></i>
+										</a>
+									</li>
+									<li class="list-inline-item">
+										<a href="#">
+											<i class="fa fa-instagram" aria-hidden="true"></i>
+										</a>
+									</li>
+									<li class="list-inline-item">
+										<a href="#">
+											<i class="fa fa-pinterest-p" aria-hidden="true"></i>
+										</a>
+									</li>
+									<li class="list-inline-item">
+										<a href="#">
+											<i class="fa fa-dribbble" aria-hidden="true"></i>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12 col-lg-4">
+						<div class="property-contact">
+							<form class="form-a">
+								<div class="row">
+									<div class="col-md-12 mb-1">
+										<div class="form-group">
+											<input type="text" class="form-control form-control-lg form-control-a" id="inputName"
+												   placeholder="Name *" required>
+										</div>
+									</div>
+									<div class="col-md-12 mb-1">
+										<div class="form-group">
+											<input type="email" class="form-control form-control-lg form-control-a" id="inputEmail1"
+												   placeholder="Email *" required>
+										</div>
+									</div>
+									<div class="col-md-12 mb-1">
+										<div class="form-group">
+											<textarea id="textMessage" class="form-control" placeholder="Comment *" name="message" cols="45"
+													  rows="8" required></textarea>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<button type="submit" class="btn btn-a">Gửi tin nhắn</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<script src="~/Scripts/jquery-3.6.4.js"></script>
+
+<!--/ Property Single End /-->

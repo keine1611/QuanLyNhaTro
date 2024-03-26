@@ -1,0 +1,659 @@
+﻿@model QuanLyNhaTro.NhaTro
+
+@{
+	ViewBag.Title = "GetModalNhaTro";
+	Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+@{
+	if (Model != null)
+	{
+	<div class="modal fade " id="modalEditNhatro" aria-hidden="true" aria-labelledby="modalEditNhatroLabel" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="modalEditNhatroLabel">Nhà trọ @Model.ten_NT</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="height:75vh; overflow-y:scroll">
+					<form>
+
+						<input hidden id="id_NT" name="id_NT" value="@Model.id_NT" />
+						<div class="form-row">
+							<div class="form-group col">
+								<label for="ten_NT">Tên nhà trọ</label>
+								<input type="text" class="form-control" id="ten_NT" placeholder="Tên nhà trọ" value="@Model.ten_NT">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col">
+								<label for="diachi_NT">Địa chỉ</label>
+								<input type="text" class="form-control" id="diachi_NT" placeholder="Địa chỉ" value="@Model.diachi_NT">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col">
+								<label for="email_NT">Email</label>
+								<input type="text" class="form-control" id="email_NT" placeholder="Email" value="@Model.email_NT">
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="sdt_NT">Số điện thoại</label>
+								<input type="text" class="form-control" id="sdt_NT" value="@Model.sodt_NT">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="cccd_NT">Căn cước công dân</label>
+								<input type="text" class="form-control" id="cccd_NT" placeholder="Căn cước công dân" value="@Model.CCCD_NT">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="dientich_NT">Diện tích</label>
+								<input type="text" class="form-control" id="dienTich_NT" value="@Model.dienTich_NT">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="gac_NT">Gác</label>
+								<select id="gac_NT" class="form-control">
+									@if (Model.gac_NT == 1)
+									{
+										<option selected value="1">Có</option>
+										<option value="0">Không</option>
+									}
+									else
+									{
+										<option value="1">Có</option>
+										<option selected value="0">Không</option>
+									}
+
+								</select>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col">
+								<label for="gia_NT">Giá</label>
+								<input type="text" class="form-control" id="gia_NT" placeholder="Giá" value="@Model.gia_NT">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col">
+								<label for="ghichu_NT">Ghi chú</label>
+								<textarea type="text" style="" class="form-control" id="ghichu_NT" rows="5">@Model.ghichu_NT</textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-info" data-bs-target="#modalEditTrangThaiPhong" data-bs-toggle="modal">Chỉnh sửa phòng trọ</button>
+					<button class="btn btn-info" data-bs-target="#modalHinhAnh" data-bs-toggle="modal">Chỉnh sửa hình ảnh</button>
+					<button class="btn btn-primary" id="UpdateNhaTro">Lưu</button>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(document).ready(function () {
+				$('.chk_trangthai').change(function () {
+					var id = $(this).val()
+					$.ajax({
+						url: "/Home/ChangeStatusPhong",
+						type: "post",
+						data: {
+							id: id,
+						},
+						success: function (data) {
+							if (data.data == 1)
+								AddToast('Chỉnh sửa thành công!')
+							else
+								AddToast('Chỉnh sửa thất bại!')
+						}
+					})
+				})
+			})
+		</script>
+		<script>
+			//Validate
+			selectorRules = {};
+			function Validator(options) {
+				if ($(options.form)) {
+					options.rules.forEach(function (rule) {
+						if (Array.isArray(selectorRules[rule.selector]))
+							selectorRules[rule.selector].push(rule.test);
+						else
+							selectorRules[rule.selector] = [rule.test];
+
+						if ($(rule.selector)) {
+							$(rule.selector).on('blur', function () {
+								Validate(rule.selector, rule)
+
+								if ($(options.form).find('.invalid').length == 0)
+									$('#AddNhaTro').removeClass('disabled')
+								else
+									$('#AddNhaTro').addClass('disabled')
+
+							})
+						}
+					});
+
+
+				}
+			}
+			function Validate(inputElement, rule) {
+				var message;
+				var rules = selectorRules[rule.selector]
+
+				for (var i = 0; i < rules.length; i++) {
+					message = rules[i]($(inputElement).val());
+					if (message)
+						break;
+				}
+				if (message) {
+					$(inputElement).next('.error-message').text(message);
+					$(inputElement).parent().addClass('invalid')
+					$(inputElement).parent().removeClass('was-validated')
+				}
+				else {
+					$(inputElement).next('.error-message').text('');
+					$(inputElement).parent().removeClass('invalid')
+					$(inputElement).parent().addClass('was-validated')
+				}
+
+			}
+
+			Validator.isRequired = function (selector, message) {
+				return {
+					selector: selector,
+					test: function (value) {
+						return value.trim() ? undefined : message || "Vui lòng nhập trường này!"
+					}
+				}
+			}
+			Validator.isEmail = function (selector) {
+				return {
+					selector: selector,
+					test: function (value) {
+						var regex = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+						return regex.test(value) ? undefined : "Vui lòng nhập địa chỉ email của bạn!"
+					}
+				}
+			}
+			Validator.isPhoneNumber = function (selector) {
+				return {
+					selector: selector,
+					test: function (value) {
+						var regex = /^(0)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
+						return regex.test(value) ? undefined : "Phải nhập số điện thoại của bạn!"
+					}
+				}
+			}
+			Validator.isSelect = function (selector, message) {
+				return {
+					selector: selector,
+					test: function (value) {
+						return value != 'none' ? undefined : message || "Vui lòng chọn!"
+					}
+				}
+			}
+
+			Validator({
+				form: '#form_NhaTro',
+				rules: [
+					Validator.isRequired('#ten_NT', 'Vui lòng nhập họ tên nhà trọ!'),
+					Validator.isRequired('#diachi_NT', 'Vui lòng nhập số điện thoại!'),
+					Validator.isRequired('#cccd_NT', 'Vui lòng nhập căn cước công dân!'),
+					Validator.isRequired('#email_NT', 'Vui lòng nhập địa chỉ Email!'),
+					Validator.isRequired('#diachi_NT', 'Vui lòng nhập địa chỉ của bạn!'),
+					Validator.isRequired('#sdt_NT', 'Vui lòng nhập số điện thoại!'),
+					Validator.isRequired('#dienTich_NT', 'Vui lòng nhập diện tích!'),
+					Validator.isRequired('#gia_NT', 'Vui lòng nhập diện tích!'),
+					Validator.isEmail('#email_NT'),
+					Validator.isPhoneNumber('#sdt_NT'),
+					Validator.isSelect('#gac_NT', 'Vui lòng chọn gác!'),
+				]
+			});
+		</script>
+		<script>
+			var id_NT, ten_NT, diachi_NT, sdt_NT, CCCD_NT, email_NT, dienTich_NT, gac_NT, ghichu_NT, gia_NT;
+			function getDataFormNhaTro() {
+				id_NT = $('#id_NT').val()
+				ten_NT = $('#ten_NT').val()
+				diachi_NT = $('#diachi_NT').val()
+				sdt_NT = $('#sdt_NT').val()
+				CCCD_NT = $('#cccd_NT').val()
+				email_NT = $('#email_NT').val()
+				dienTich_NT = $('#dienTich_NT').val()
+				gac_NT = $('#gac_NT').val()
+				ghichu_NT = $('#ghichu_NT').val()
+				gia_NT = $('#gia_NT').val()
+			}
+
+			$(document).ready(function () {
+				$('#UpdateNhaTro').click(function () {
+					getDataFormNhaTro()
+					$.ajax({
+						url: "/Home/UpdateNhaTro",
+						type: "post",
+						data: {
+							id_NT: id_NT,
+							ten_NT: ten_NT,
+							diachi_NT: diachi_NT,
+							sdt_NT: sdt_NT,
+							CCCD_NT: CCCD_NT,
+							email_NT: email_NT,
+							dienTich_NT: dienTich_NT,
+							gac_NT: gac_NT,
+							ghichu_NT: ghichu_NT,
+							gia_NT: gia_NT,
+						},
+						success: function (data) {
+							if (data == 0) {
+								AddToast('Lưu thành công!')
+							}
+							else
+								AddToast('Lưu thất bại!')
+						}
+					})
+
+				})
+			})
+		</script>
+	</div>
+		<div class="modal fade" id="modalEditTrangThaiPhong" aria-hidden="true" aria-labelledby="modalEditTrangThaiPhongLabel" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="modalEditTrangThaiPhongLabel">Phòng trọ</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" style="height:75vh; overflow-y:scroll">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">Tên phòng</th>
+									<th scope="col">Diện tích(m2)</th>
+									<th scope="col">Gác</th>
+									<th scope="col">Số người</th>
+									<th scope="col">Ghi chú</th>
+									<th scope="col">Trạng thái</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var item in Model.Phongs)
+								{
+									<tr>
+										<td style="text-align: center; vertical-align: middle ">@item.ten_P</td>
+										<td style="text-align: center; vertical-align: middle ">@item.dientich_P</td>
+										@{
+											if (item.gac_P == 1)
+											{
+												<td style="text-align: center; vertical-align: middle ">Có</td>
+											}
+
+											else
+											{
+												<td style="text-align: center; vertical-align: middle ">Không</td>
+											}
+										}
+										<td style="text-align:center; vertical-align: middle">@item.songuoi_P</td>
+										<td style="text-align:center; vertical-align: middle">@item.ghichu_P</td>
+										@{ if (item.trangthai_P == 1)
+											{
+												<td style="text-align:center; vertical-align: middle"><input type="checkbox" class="chk_trangthai" value="@item.id_P" checked /></td>
+											}
+											else
+											{
+												<td style="text-align: center; vertical-align: middle "><input type="checkbox" class="chk_trangthai" value="@item.id_P" /></td>
+											}
+										}
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-info">Thêm phòng trọ</button>
+						<button class="btn btn-primary" data-bs-target="#modalEditNhatro" data-bs-toggle="modal">Trở về</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="modalHinhAnh" aria-hidden="true" aria-labelledby="modalEditHinhAnhLabel" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="modalEditHinhAnhLabel">Hình ảnh</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" style="height:75vh; overflow-y:scroll">
+						@foreach (var item in Model.HinhAnhs)
+						{
+							<div class="row" style="margin-top:20px;padding:0px 40px 0 40px">
+								<div class="row main align-items-center">
+									<div class="col-2"><img style="width:200px;" class="img-fluid" src="~/Content/Images/@item.url_HA" alt=""></div>
+									<div class="col"><p>@item.url_HA</p></div>
+									<div class="col-2 delete_HA" id="@item.id_HA" style="cursor: pointer;color:red">X</div>
+								</div>
+							</div>
+						}
+					</div>
+					<div class="modal-footer">
+						<label for="HinhAnh">Thêm ảnh</label>
+						<input type="file" class="@Model.id_NT" id="imageUploadForm" multiple="multiple">
+						<input type="button" id="btn_upload" value="Lưu" />
+						<button class="btn btn-primary" data-bs-target="#modalEditNhatro" data-bs-toggle="modal">Trở về</button>
+					</div>
+				</div>
+			</div>
+			<script>
+				$(document).ready(function () {
+					$("#btn_upload").click(function () {
+						if (window.FormData != undefined) {
+							var id_NT = Number($(this).attr('class'))
+							var formData = new FormData();
+							var fileupload = $("#imageUploadForm").get(0)
+							var files = fileupload.files
+							for (var i = 0; i < files.lenght; i++) {
+								formData.append(files[i].name, files[i]);
+							}
+
+							formData.append('id_NT', id_NT)
+							$.ajax({
+								type: "POST",
+								url: '/Home/AddHinhAnh',
+
+								contentType: false,
+								processData: false,
+								data: formData,
+								success: function (response) {
+									console.log(response)
+								},
+								error: function (error) {
+									AddToast("Lỗi kết nối!");
+								}
+							})
+						}
+					})
+				});
+			</script>
+			<script>
+				$(document).ready(function () {
+					$('.delete_HA').click(function () {
+						var id_HA = $(this).attr('id')
+						var item = $(this).parent().parent()
+						item.hide()
+						$.ajax({
+							url: '/Home/DeleteHinhAnh',
+							type: 'post',
+							data: { id_HA: id_HA },
+							async: false,
+							success: function (data) {
+								if (data == 0) {
+									AddToast('Xoá hình ảnh thành công!')
+									item.remove()
+								}
+								else
+									if (data == 1)
+										AddToast('Không tìm thấy hình ảnh này!')
+									else
+										AddToast('Lỗi khi xoá!')
+							}
+						})
+					})
+				})
+
+			</script>
+		</div>
+	}
+	else
+	{
+		<div class="modal fade " id="modalEditNhatro" aria-hidden="true" aria-labelledby="modalEditNhatroLabel" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="modalEditNhatroLabel">Thêm nhà trọ</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" style="height:75vh; overflow-y:scroll">
+						<form id="form_NhaTro">
+							<style>
+								.invalid .form-label {
+									color: red !important;
+								}
+
+								.invalid .form-control {
+									color: red !important;
+									border-color: red;
+								}
+
+								.invalid .error-message {
+									color: red !important;
+								}
+
+								.invalid .form-select {
+									color: red !important;
+									border-color: red;
+								}
+							</style>
+							<div class="form-row">
+								<div class="form-group col">
+									<label for="ten_NT">Tên nhà trọ</label>
+									<input type="text" class="form-control" id="ten_NT" placeholder="Tên nhà trọ" value="">
+									<span class="error-message"></span>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col">
+									<label for="diachi_NT">Địa chỉ</label>
+									<input type="text" class="form-control" id="diachi_NT" placeholder="Địa chỉ" value="">
+									<span class="error-message"></span>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col">
+									<label for="email_NT">Email</label>
+									<input type="text" class="form-control" id="email_NT" placeholder="Email" value="">
+									<span class="error-message"></span>
+								</div>
+							</div>
+
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="sdt_NT">Số điện thoại</label>
+									<input type="text" class="form-control" id="sdt_NT" value="">
+									<span class="error-message"></span>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="cccd_NT">Căn cước công dân</label>
+									<input type="text" class="form-control" id="cccd_NT" placeholder="Căn cước công dân" value="">
+									<span class="error-message"></span>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="dientich_NT">Diện tích</label>
+									<input type="text" class="form-control" id="dienTich_NT" value="">
+									<span class="error-message"></span>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="gac_NT">Gác</label>
+									<select id="gac_NT" class="form-control">
+										<option selected value="1">Có</option>
+										<option value="0">Không</option>
+									</select>
+									<span class="error-message"></span>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col">
+									<label for="gia_NT">Giá</label>
+									<input type="number" class="form-control" id="gia_NT" placeholder="Giá" value="">
+									<span class="error-message"></span>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col">
+									<label for="ghichu_NT">Ghi chú</label>
+									<textarea type="text" style="" class="form-control" id="ghichu_NT" rows="5"></textarea>
+									<span class="error-message"></span>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary disabled" id="AddNhaTro">Thêm nhà trọ</button>
+					</div>
+				</div>
+			</div>
+			<script>
+				//Validate
+				selectorRules = {};
+				function Validator(options) {
+					if ($(options.form)) {
+						options.rules.forEach(function (rule) {
+							if (Array.isArray(selectorRules[rule.selector]))
+								selectorRules[rule.selector].push(rule.test);
+							else
+								selectorRules[rule.selector] = [rule.test];
+
+							if ($(rule.selector)) {
+								$(rule.selector).on('blur', function () {
+									Validate(rule.selector, rule)
+
+									if ($(options.form).find('.invalid').length == 0)
+										$('#AddNhaTro').removeClass('disabled')
+									else
+										$('#AddNhaTro').addClass('disabled')
+
+								})
+							}
+						});
+
+
+					}
+				}
+				function Validate(inputElement, rule) {
+					var message;
+					var rules = selectorRules[rule.selector]
+
+					for (var i = 0; i < rules.length; i++) {
+						message = rules[i]($(inputElement).val());
+						if (message)
+							break;
+					}
+					if (message) {
+						$(inputElement).next('.error-message').text(message);
+						$(inputElement).parent().addClass('invalid')
+						$(inputElement).parent().removeClass('was-validated')
+					}
+					else {
+						$(inputElement).next('.error-message').text('');
+						$(inputElement).parent().removeClass('invalid')
+						$(inputElement).parent().addClass('was-validated')
+					}
+
+				}
+
+				Validator.isRequired = function (selector, message) {
+					return {
+						selector: selector,
+						test: function (value) {
+							return value.trim() ? undefined : message || "Vui lòng nhập trường này!"
+						}
+					}
+				}
+				Validator.isEmail = function (selector) {
+					return {
+						selector: selector,
+						test: function (value) {
+							var regex = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+							return regex.test(value) ? undefined : "Vui lòng nhập địa chỉ email của bạn!"
+						}
+					}
+				}
+				Validator.isPhoneNumber = function (selector) {
+					return {
+						selector: selector,
+						test: function (value) {
+							var regex = /^(0)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
+							return regex.test(value) ? undefined : "Phải nhập số điện thoại của bạn!"
+						}
+					}
+				}
+				Validator.isSelect = function (selector, message) {
+					return {
+						selector: selector,
+						test: function (value) {
+							return value != 'none' ? undefined : message || "Vui lòng chọn!"
+						}
+					}
+				}
+
+				Validator({
+					form: '#form_NhaTro',
+					rules: [
+						Validator.isRequired('#ten_NT', 'Vui lòng nhập họ tên nhà trọ!'),
+						Validator.isRequired('#diachi_NT', 'Vui lòng nhập số điện thoại!'),
+						Validator.isRequired('#cccd_NT', 'Vui lòng nhập căn cước công dân!'),
+						Validator.isRequired('#email_NT', 'Vui lòng nhập địa chỉ Email!'),
+						Validator.isRequired('#diachi_NT', 'Vui lòng nhập địa chỉ của bạn!'),
+						Validator.isRequired('#sdt_NT', 'Vui lòng nhập số điện thoại!'),
+						Validator.isRequired('#dienTich_NT', 'Vui lòng nhập diện tích!'),
+						Validator.isRequired('#gia_NT', 'Vui lòng nhập diện tích!'),
+						Validator.isEmail('#email_NT'),
+						Validator.isPhoneNumber('#sdt_NT'),
+						Validator.isSelect('#gac_NT', 'Vui lòng chọn gác!'),
+					]
+				});
+			</script>
+			<script>
+
+				var id_NT, ten_NT, diachi_NT, sdt_NT, CCCD_NT, email_NT, dienTich_NT, gac_NT, ghichu_NT, gia_NT;
+				function getDataFormNhaTro() {
+					id_NT = $('#id_NT').val()
+					ten_NT = $('#ten_NT').val()
+					diachi_NT = $('#diachi_NT').val()
+					sdt_NT = $('#sdt_NT').val()
+					CCCD_NT = $('#cccd_NT').val()
+					email_NT = $('#email_NT').val()
+					dienTich_NT = $('#dienTich_NT').val()
+					gac_NT = $('#gac_NT').val()
+					ghichu_NT = $('#ghichu_NT').val()
+					gia_NT = $('#gia_NT').val()
+				}
+				$(document).ready(function () {
+					$('#AddNhaTro').click(function () {
+						getDataFormNhaTro()
+						$.ajax({
+							url: "/Home/AddNhaTro",
+							type: "post",
+							data: {
+								ten_NT: ten_NT,
+								diachi_NT: diachi_NT,
+								sdt_NT: sdt_NT,
+								CCCD_NT: CCCD_NT,
+								email_NT: email_NT,
+								dienTich_NT: dienTich_NT,
+								gac_NT: gac_NT,
+								ghichu_NT: ghichu_NT,
+								gia_NT: gia_NT
+							},
+							success: function (data) {
+								if (data == 0) {
+									AddToast('Lưu thành công!')
+								}
+								else
+									AddToast('Lưu thất bại!')
+							}
+						})
+
+					})
+				})
+
+
+
+			</script>
+		</div>
+	}
+}
+
+

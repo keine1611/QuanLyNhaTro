@@ -1,0 +1,312 @@
+﻿@model QuanLyNhaTro.KhachHang
+
+@{
+	ViewBag.Title = "Thông tin cá nhân";
+	Layout = "~/Views/Shared/_LayoutHome.cshtml";
+	var session = Session["taikhoan"] as TaiKhoan;
+}
+<style>
+	.invalid .form-label {
+		color: red !important;
+	}
+
+	.invalid .form-control {
+		color: red !important;
+		border-color:red;
+	}
+	.invalid .error-message {
+		color: red !important;
+	}
+	.invalid .form-select {
+		color: red !important;
+		border-color: red;
+	}
+
+</style>
+<div class="row" style="margin:0 auto;margin-top:200px; width:70%">
+	<div class="col-lg-4">
+		<div class="card mb-4">
+			<div class="card-body text-center">
+				<img src="~/Content/Images/avatar/@session.avatar" alt="avatar"
+					 class="rounded-circle img-fluid" style="width: 150px;">
+				<h5 class="my-3">@Html.DisplayFor(model => model.hoten_KH)</h5>
+				<p class="text-muted mb-1">@Html.DisplayFor(model => model.diachi_KH)</p>
+				<p class="text-muted mb-4">@Html.DisplayFor(model => model.sodt_KH)</p>
+				<div class="d-flex justify-content-center mb-2">
+					<button type="button" class="btn" style="background: #2eca6a">Follow</button>
+					<button type="button" class="btn ml-2" style="background: #2eca6a">Message</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-8">
+		<div class="card mb-4">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-4">
+						<p class="mb-0"><b>Họ và tên</b></p>
+					</div>
+					<div class="col-sm-8">
+						<p class="text-muted mb-0 hoten pl-4">@Html.DisplayFor(model => model.hoten_KH)</p>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-sm-4">
+						<p class="mb-0"><b>Giới tính</b></p>
+					</div>
+					<div class="col-sm-8">
+						@{
+							var gt = Html.DisplayFor(model => model.gioitinh_KH);
+							if (gt.ToString().Length == 0) { <p class="text-muted mb-0 gioitinh pl-4"></p> }
+							else {
+								if (Model.gioitinh_KH == 1) {<p class="text-muted mb-0 gioitinh pl-4">Nam</p> }
+								else { <p class="text-muted mb-0 gioitinh pl-4">Nữ</p>}
+								}
+						}
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-sm-4">
+						<p class="mb-0"><b>Email</b></p>
+					</div>
+					<div class="col-sm-8">
+						<p class="text-muted mb-0 email pl-4">@Html.DisplayFor(model => model.email_KH)</p>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-sm-4">
+						<p class="mb-0"><b>Số điện thoại</b></p>
+					</div>
+					<div class="col-sm-8">
+						<p class="text-muted mb-0 sdt pl-4">@Html.DisplayFor(model => model.sodt_KH)</p>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-sm-4">
+						<p class="mb-0 gioitinh"><b>Căn cước công dân</b></p>
+					</div>
+					<div class="col-sm-8">
+						<p class="text-muted mb-0 cccd pl-4">@Html.DisplayFor(model => model.cccd_KH)</p>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-sm-4">
+						<p class="mb-0"><b>Địa chỉ</b></p>
+					</div>
+					<div class="col-sm-8">
+						<p class="text-muted mb-0 diachi pl-4">@Html.DisplayFor(model => model.diachi_KH)</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<button type="button" class="btn" style="background: #2eca6a; margin: 0 auto; display: block" data-bs-toggle="modal" data-bs-target="#EditModal" >Chỉnh sửa thông tin</button>
+
+@*Modal Edit Profile*@
+<div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content p-4">
+			<div class="modal-header">
+				<h5 class="modal-title" id="EditModalLabel">Thông tin cá nhân</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form class="row g-3 form" id="form" >
+					<div class="col-12 form-group">
+						<label for="hoten_KH" class="form-label">Họ tên</label>
+						<input type="text" class="form-control" id="hoten_KH" name="hoten_KH">
+						<span class="error-message"></span>
+					</div>
+					<div class="col-md-12 form-group">
+						<label for="gioitinh_KH" class="form-label">Giới tính</label>
+						<select id="gioitinh_KH" class="form-select" name="gioitinh_KH">
+							<option value="none">--Vui lòng chọn giới tính của bạn</option>
+							<option value="1">Nam</option>
+							<option value="2">Nữ</option>
+						</select>
+						<span class="error-message"></span>
+					</div>
+					<div class="col-md-6 form-group">
+						<label for="sodt_KH" class="form-label">Số điện thoại</label>
+						<input type="text" class="form-control" id="sodt_KH" name="sodt_KH">
+						<span class="error-message"></span>
+					</div>
+					<div class="col-md-6 form-group">
+						<label for="cccd_KH" class="form-label">Căn cước công dân</label>
+						<input type="text" class="form-control" id="cccd_KH" name="cccd_KH">
+						<span class="error-message"></span>
+					</div>
+					<div class="col-12 form-group">
+						<label for="email_KH" class="form-label">Email</label>
+						<input type="text" class="form-control" id="email_KH" name="email_KH">
+						<span class="error-message"></span>
+					</div>
+					<div class="col-12 form-group">
+						<label for="diachi_KH" class="form-label">Địa chỉ</label>
+						<input type="text" class="form-control" id="diachi_KH" name="diachi_KH">
+						<span class="error-message"></span>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+				<button id="btn_submit" class="btn " style="background:#2eca6a">Lưu thay đổi</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="~/Scripts/jquery-3.6.4.js"></script>
+<script>
+	//Validate
+	selectorRules = {};
+	function Validator(options) {
+		if ($(options.form)) {
+			options.rules.forEach(function (rule) {
+				if (Array.isArray(selectorRules[rule.selector]))
+					selectorRules[rule.selector].push(rule.test);
+				else
+					selectorRules[rule.selector] = [rule.test];
+
+ 				if ($(rule.selector)) {
+						$(rule.selector).on('blur', function () {
+							Validate(rule.selector, rule)
+
+							if ($(options.form).find('.invalid').length == 0)
+								$('#btn_submit').removeClass('disabled')
+							else
+								$('#btn_submit').addClass('disabled')
+							
+					})
+				}
+			});
+
+
+		}
+	}
+	function Validate(inputElement, rule) {
+		var message;
+		var rules = selectorRules[rule.selector]
+
+		for (var i = 0; i < rules.length; i++) {
+			message = rules[i]($(inputElement).val());
+			if (message)
+				break;
+		}
+		if (message) {
+			$(inputElement).next('.error-message').text(message);
+			$(inputElement).parent().addClass('invalid')
+			$(inputElement).parent().removeClass('was-validated')
+		}
+		else {
+			$(inputElement).next('.error-message').text('');
+			$(inputElement).parent().removeClass('invalid')
+			$(inputElement).parent().addClass('was-validated')
+		}
+
+	}
+
+	Validator.isRequired = function (selector, message) {
+			return {
+				selector: selector,
+				test: function (value) {
+					return value.trim() ? undefined : message || "Vui lòng nhập trường này!"
+				}
+			}
+	}
+	Validator.isEmail = function (selector) {
+			return {
+				selector: selector,
+				test: function (value) {
+					var regex = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+					return regex.test(value) ? undefined : "Vui lòng nhập địa chỉ email của bạn!"
+				}
+			}
+	}
+	Validator.isPhoneNumber = function (selector) {
+			return {
+				selector: selector,
+				test: function (value) {
+					var regex = /^(0)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
+					return regex.test(value) ? undefined : "Phải nhập số điện thoại của bạn!"
+				}
+			}
+	}
+	Validator.isSelect = function (selector, message) {
+			return {
+				selector: selector,
+				test: function (value) {
+					return value != 'none' ? undefined : message || "Vui lòng chọn!"
+				}
+			}
+	}
+
+	Validator({
+		form: '#form',
+		rules: [
+			Validator.isRequired('#hoten_KH', 'Vui lòng nhập họ tên!'),
+			Validator.isRequired('#sodt_KH', 'Vui lòng nhập số điện thoại!'),
+			Validator.isRequired('#cccd_KH', 'Vui lòng nhập căn cước công dân!'),
+			Validator.isRequired('#email_KH', 'Vui lòng nhập địa chỉ Email!'),
+			Validator.isRequired('#diachi_KH','Vui lòng nhập địa chỉ của bạn!'),
+			Validator.isEmail('#email_KH'),
+			Validator.isPhoneNumber('#sodt_KH'),
+			Validator.isSelect('#gioitinh_KH', 'Vui lòng chọn giới tính của bạn!'),
+		]
+	});
+</script>
+<script>
+	var hoten_KH, gioitinh_KH, sodt_KH, cccd_KH, diachi_KH;
+	$(document).ready(setTextEdit());
+	function setTextEdit() {
+		$('#hoten_KH').val($('.hoten').text());
+		if (@Html.DisplayFor(model => model.gioitinh_KH).ToString().Length == 0)
+			$('#gioitinh_KH').val('none')
+		else {
+			if (Number(@Html.DisplayFor(model => model.gioitinh_KH))== 1)
+				$('#gioitinh_KH').val('1');
+			else
+				$('#gioitinh_KH').val('0');
+		}
+		$('#sodt_KH').val($('.sdt').text());
+		$('#cccd_KH').val($('.cccd').text());
+		$('#email_KH').val($('.email').text());
+		$('#diachi_KH').val($('.diachi').text());
+	}
+
+	function getTextEdit() {
+		hoten_KH = $('#hoten_KH').val();
+		gioitinh_KH = $('#gioitinh_KH').val();
+		sodt_KH = $('#sodt_KH').val();
+		cccd_KH = $('#cccd_KH').val();
+		email_KH = $('#email_KH').val();
+		diachi_KH = $('#diachi_KH').val();
+	}
+
+	$('#btn_submit').on("click", function () {
+		getTextEdit();
+		$.ajax({
+			type: "POST",
+			url: "/Home/LuuProfileKhachHang",
+			data: {
+				hoten_KH: hoten_KH,
+				gioitinh_KH: gioitinh_KH,
+				sodt_KH: sodt_KH,
+				cccd_KH: cccd_KH,
+				email_KH: email_KH,
+				diachi_KH: diachi_KH
+			},
+			success: function () {
+				window.location.reload()
+			}
+
+		});
+	});
+
+</script>

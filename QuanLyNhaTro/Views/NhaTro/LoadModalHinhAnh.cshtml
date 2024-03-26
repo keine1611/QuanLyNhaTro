@@ -1,0 +1,71 @@
+﻿@model IEnumerable<QuanLyNhaTro.HinhAnh>
+
+@{
+	ViewBag.Title = "LoadModalHinhAnh";
+	Layout = "~/Views/Shared/_LayoutAdmin2.cshtml";
+}
+
+<h2>LoadModalHinhAnh</h2>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*<div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+                            Tải ảnh mới
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="file" accept="image/*" name="fileUpload" />
+                            @ViewBag.ThongBao
+                        </div>
+                    </div>
+                </div>*@
+                @foreach (var item in Model)
+                {
+                    {
+                        <div><img src="~/Content/Images/@item.url_HA" style="width:75px; height:75px"/>  <img id="@item.id_HA" class="DeleteImage" src="~/Content/Images/Icons/delete.png" style="width:40px;height:40px;border-radius:10px;" /></div>
+                    }
+                }
+                <script>
+                    $(".DeleteImage").click(function () {
+                        var idHA = $(this).attr('id')
+                        var id = $(this).attr('class')
+                        console.log(idHA)
+                        $.ajax({
+                            url: "/NhaTro/XoaHinhAnhNhaTro",
+                            type: "POST",
+                            async: false,
+                            data: { id: idHA },
+                            success: function (data) {
+                                console.log(data)
+
+                            }
+                        })
+                        $.ajax({
+                            url: "/NhaTro/LoadModalHinhAnh",
+                            type: "POST",
+                            data: { id: @ViewBag.id_NT },
+                            async: false,
+                            success: function (data) {
+                                $('.modal-body').replaceWith($(data).find('.modal-body'))
+                            }
+                        })
+                    })
+
+                </script>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+

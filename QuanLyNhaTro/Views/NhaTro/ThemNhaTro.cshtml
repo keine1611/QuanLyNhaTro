@@ -1,0 +1,205 @@
+﻿@model QuanLyNhaTro.NhaTro
+
+@{
+	ViewBag.Title = "Thêm nhà trọ";
+	Layout = "~/Views/Shared/_LayoutAdmin2.cshtml";
+}
+
+<div class="col-md-8 col-md-offset-0 text-primary" style="margin:0 auto">
+	<h2>Thông tin Nhà Trọ mới</h2>
+</div>
+
+
+@using (Html.BeginForm("ThemNhaTro", "NhaTro", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	@Html.ValidationSummary(true)
+
+	<div class="form-horizontal">
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Tên Nhà Trọ
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.ten_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.ten_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					CCCD
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.CCCD_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.CCCD_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Địa Chỉ
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.diachi_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.diachi_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Email
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.email_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.email_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		@*<div class="col-md-6">
+				<div class="form-group row">
+					<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+						UserName
+					</label>
+					<div class="col-sm-9">
+						@Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+					</div>
+
+				</div>
+			</div>*@
+
+		@{
+			QuanLyNhaTroEntities nt = new QuanLyNhaTroEntities();
+			var lstTaiKhoan = from s in nt.TaiKhoans select s;
+		}
+
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Số Phòng
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.sophong_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.sophong_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Số Điện Thoại
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.sodt_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.sodt_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Ghi Chú
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.ghichu_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.ghichu_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					UserName
+				</label>
+				<select name="UserName" class="col-sm-9" style="">
+					@foreach (var item in lstTaiKhoan)
+					{
+						<option value="@item.userName">@item.userName</option>
+					}
+				</select>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Diện Tích
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.dienTich_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.dienTich_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Gác
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.gac_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.gac_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Giá
+				</label>
+				<div class="col-sm-9">
+					@Html.EditorFor(model => model.gia_NT, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.gia_NT, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="col-md-6">
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label text-primary" style="font-size:20px">
+					Chọn ảnh:
+				</label>
+				<div class="col-sm-9">
+					<input type="file" accept="image/*" name="fileUpload" />
+					@ViewBag.ThongBao
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col-md-8 col-md-offset-4">
+			<div class="form-group row">
+				<div class="col-md-6" style="margin:0 auto">
+					<button class="btn btn-primary btn-icon-text btn-rounded">
+						@Html.ActionLink("Xem danh sách Nhà Trọ", "DanhSachNhaTro", "", new { @style = "color:#fff" })
+					</button>
+					<input type="submit" value="Thêm Nhà Trọ" class="btn btn-primary btn-icon-text btn-rounded" />
+				</div>
+			</div>
+		</div>
+
+	</div>
+}
+
+
+

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<QuanLyNhaTro.ChiTietDonDat>
+
+
+<div class="modal fade" id="chitietdondat-modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true" role="dialog">
+	<div class="modal-dialog modal-xl" id="modal_cart">
+		<div class="modal-content pl-4">
+			<div class="modal-header">
+				<h5 class="modal-title" id="ModalLabel">Chi tiết đơn đặt</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body body_modalchitietdondat" style="max-height:70vh;overflow-y: scroll;">
+				<div class="row" style="margin-top:20px">
+					<div class="row main align-items-center">
+						<div style="text-align:center" class="col-2"></div>
+						<div class="col">
+							<div style="text-align:center" class="row"><b>Tên nhà trọ</b></div>
+						</div>
+						<div style="text-align:center" class="col "><b>Phòng</b></div>
+						<div class="col row">
+							<div style="text-align:center" class="col"><b>Giá</b></div>
+						</div>
+					</div>
+				</div>
+				@foreach (var item in Model)
+				{
+					<div class="row" style="margin-top:20px">
+						<div class="row main align-items-center">
+							<div style="text-align:center" class="col-2"><img style="max-width:200px;max-height:100px" class="img-fluid" src="~/Content/Images/@item.Phong.NhaTro.HinhAnhs.FirstOrDefault().url_HA" alt=""></div>
+							<div class="col">
+								<div style="text-align:center;display:block;margin:0 auto" class="row">@item.Phong.NhaTro.ten_NT</div>
+							</div>
+							<div style="text-align:center" class="col ">@item.Phong.ten_P</div>
+							<div class="col row">
+								<div style="text-align:center" class="col">@item.Phong.NhaTro.gia_NT VND</div>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+			<div class="modal-footer" style="padding-top:2px; margin-top:0px">
+				<button class="btn btn-info" data-bs-target="#dondat-modal" data-bs-toggle="modal">Trở về</button>
+			</div>
+		</div>
+	</div>
+</div>
+

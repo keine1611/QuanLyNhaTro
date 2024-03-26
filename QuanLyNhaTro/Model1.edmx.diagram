@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="795550bbfb72441fa21399def548d99c" Name="Diagram1">
+        <EntityTypeShape EntityType="QuanLyNhaTroModel.ChiTietDonDat" Width="1.5" PointX="7.5" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyNhaTroModel.DonDatPhong" Width="1.5" PointX="5.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyNhaTroModel.GioHang" Width="1.5" PointX="7.5" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyNhaTroModel.HinhAnh" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyNhaTroModel.KhachHang" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyNhaTroModel.NhaTro" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyNhaTroModel.Phong" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyNhaTroModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyNhaTroModel.TaiKhoan" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <AssociationConnector Association="QuanLyNhaTroModel.FK_ChiTietDonDat_DonDatPhong1" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyNhaTroModel.FK_ChiTietDonDat_Phong" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyNhaTroModel.FK_GioHang_KhachHang" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyNhaTroModel.FK_GioHang_Phong" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyNhaTroModel.FK_HinhAnh_NhaTro" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyNhaTroModel.FK_KhachHang_TaiKhoan" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyNhaTroModel.FK_NhaTro_TaiKhoan" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyNhaTroModel.FK_Phong_NhaTro" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

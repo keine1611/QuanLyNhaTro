@@ -1,0 +1,842 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta content="" name="keywords">
+	<meta content="" name="description">
+	<title>@ViewBag.Title</title>
+	<!-- Favicons -->
+	<link href="~/Content/Images/Logo/logo.jpg" rel="icon">
+	<link href="~/Assets/Home/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+	<!-- Bootstrap CSS File -->
+	<link href="~/Assets/Home/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+	<!-- Libraries CSS Files -->
+	<link href="~/Assets/Home/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="~/Assets/Home/lib/animate/animate.min.css" rel="stylesheet">
+	<link href="~/Assets/Home/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+	<link href="~/Assets/Home/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+	<!-- Main Stylesheet File -->
+	<link href="~/Assets/Home/css/style.css" rel="stylesheet">
+	<link href="~/Assets/Home/css/my-style.css" rel="stylesheet" />
+
+	<!--User DropDown Menu Libraries -->
+	<link href="~/Assets/Home/css/my-style.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+
+	<!--Bootstrap 5.3-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+	<!--CSS Shopping Modal-->
+	<style>
+		.sold-out {
+			opacity: 0.5;
+		}
+
+			.sold-out:hover {
+				pointer-events: none;
+			}
+
+		#shoppingcart-modal .card {
+			margin: auto;
+			max-width: 1200px;
+			width: 100%;
+			box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			border-radius: 1rem;
+			border: transparent;
+		}
+
+		@@media(max-width:992px) {
+			#shoppingcart-modal .card {
+				margin: 3vh auto;
+			}
+		}
+
+		#shoppingcart-modal .cart {
+			background-color: #fff;
+			padding: 4vh 5vh;
+			border-bottom-left-radius: 1rem;
+			border-top-left-radius: 1rem;
+		}
+
+		@@media(max-width:992px) {
+			#shoppingcart-modal .cart {
+				padding: 4vh;
+				border-bottom-left-radius: unset;
+				border-top-right-radius: 1rem;
+			}
+		}
+
+		#shoppingcart-modal .summary {
+			background-color: #ddd;
+			border-top-right-radius: 1rem;
+			border-bottom-right-radius: 1rem;
+			padding: 4vh;
+			color: rgb(65, 65, 65);
+		}
+
+		@@media(max-width:992px) {
+			#shoppingcart-modal .summary {
+				border-top-right-radius: unset;
+				border-bottom-left-radius: 1rem;
+			}
+		}
+
+		#shoppingcart-modal .summary .col-2 {
+			padding: 0;
+		}
+
+		#shoppingcart-modal .summary .col-10 {
+			padding: 0;
+		}
+
+		#shoppingcart-modal .row {
+			margin: 0;
+		}
+
+		#shoppingcart-modal .title b {
+			font-size: 1.5rem;
+		}
+
+		#shoppingcart-modal .main {
+			margin: 0;
+			padding: 2vh 0;
+			width: 100%;
+		}
+
+		#shoppingcart-modal .col-2, .col {
+			padding: 0 1vh;
+		}
+
+		#shoppingcart-modal a {
+			padding: 0 1vh;
+		}
+
+		#shoppingcart-modal .close {
+			margin-left: auto;
+			font-size: 0.7rem;
+		}
+
+		#shoppingcart-modal img {
+			width: 3.5rem;
+		}
+
+
+		#shoppingcart-modal h5 {
+			margin-top: 2vh;
+		}
+
+		#shoppingcart-modal hr {
+			margin-top: 1.25rem;
+		}
+
+		#shoppingcart-modal form {
+			padding: 2vh 0;
+		}
+
+		#shoppingcart-modal select {
+			border: 1px solid rgba(0, 0, 0, 0.137);
+			padding: 1vh 1.3vh;
+			margin-bottom: 2vh;
+			outline: none;
+			width: 100%;
+			background-color: rgb(247, 247, 247);
+			border-radius: 15px;
+		}
+
+		#shoppingcart-modal input {
+			border: 1px solid rgba(0, 0, 0, 0.137);
+			padding: 1vh 1.3vh;
+			margin-bottom: 2vh;
+			outline: none;
+			width: 100%;
+			background-color: rgb(247, 247, 247);
+			border-radius: 15px;
+		}
+
+		#shoppingcart-modal .checkbox {
+			border: 1px solid rgba(0, 0, 0, 0.137);
+			outline: none;
+			width: 20%;
+			background-color: rgb(247, 247, 247);
+			border-radius: 15px;
+		}
+
+		#shoppingcart-modal input:focus::-webkit-input-placeholder {
+			color: transparent;
+		}
+
+		#shoppingcart-modal .btn {
+			background-color: #2eca6e;
+			border-radius: 20px;
+			color: white;
+			width: 100%;
+			font-size: 0.7rem;
+			margin-top: 4vh;
+			padding: 1.5vh;
+		}
+
+			#shoppingcart-modal .btn:focus {
+				box-shadow: none;
+				outline: none;
+				box-shadow: none;
+				color: white;
+				-webkit-box-shadow: none;
+				-webkit-user-select: none;
+				transition: none;
+			}
+
+			#shoppingcart-modal .btn:hover {
+				color: white;
+			}
+
+		#shoppingcart-modal a {
+			font-size: 20px;
+			color: black;
+			text-decoration: none;
+		}
+
+			#shoppingcart-modal a:hover {
+				color: black;
+				text-decoration: none;
+			}
+
+		#shoppingcart-modal #code {
+			background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
+			background-repeat: no-repeat;
+			background-position-x: 95%;
+			background-position-y: center;
+		}
+	</style>
+
+	<!--CSS Modal Confirm Delete-->
+	<style>
+		.modal-confirm {
+			color: #636363;
+			width: 400px;
+		}
+
+			.modal-confirm .modal-content {
+				padding: 20px;
+				border-radius: 5px;
+				border: none;
+				text-align: center;
+				font-size: 14px;
+			}
+
+			.modal-confirm .modal-header {
+				border-bottom: none;
+				position: relative;
+			}
+
+			.modal-confirm h4 {
+				text-align: center;
+				font-size: 26px;
+				margin: 30px 0 -10px;
+			}
+
+			.modal-confirm .close {
+				position: absolute;
+				top: -5px;
+				right: -2px;
+			}
+
+			.modal-confirm .modal-body {
+				color: #999;
+			}
+
+			.modal-confirm .modal-footer {
+				border: none;
+				text-align: center;
+				border-radius: 5px;
+				font-size: 13px;
+				padding: 10px 15px 25px;
+			}
+
+				.modal-confirm .modal-footer a {
+					color: #999;
+				}
+
+			.modal-confirm .icon-box {
+				width: 80px;
+				height: 80px;
+				margin: 0 auto;
+				border-radius: 50%;
+				z-index: 9;
+				text-align: center;
+				border: 3px solid #f15e5e;
+			}
+
+				.modal-confirm .icon-box i {
+					color: #f15e5e;
+					font-size: 46px;
+					display: inline-block;
+					margin-top: 13px;
+				}
+
+			.modal-confirm .btn,
+			.modal-confirm .btn:active {
+				color: #fff;
+				border-radius: 4px;
+				background: #60c7c1;
+				text-decoration: none;
+				transition: all 0.4s;
+				line-height: normal;
+				min-width: 120px;
+				border: none;
+				min-height: 40px;
+				border-radius: 3px;
+				margin: 0 5px;
+			}
+
+			.modal-confirm .btn-secondary {
+				background: #c1c1c1;
+			}
+
+				.modal-confirm .btn-secondary:hover,
+				.modal-confirm .btn-secondary:focus {
+					background: #a8a8a8;
+				}
+
+			.modal-confirm .btn-danger {
+				background: #f15e5e;
+			}
+
+				.modal-confirm .btn-danger:hover,
+				.modal-confirm .btn-danger:focus {
+					background: #ee3535;
+				}
+
+		.trigger-btn {
+			display: inline-block;
+			margin: 100px auto;
+		}
+	</style>
+
+	<!--CSS Modal Đơn Đặt-->
+	<style>
+		.body_modaldondat td:hover {
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="click-closed"></div>
+	<!--/ Form Search Star /-->
+	<div class="box-collapse">
+		<div class="title-box-d">
+			<h3 class="title-d">Tìm kiếm</h3>
+		</div>
+		<span class="close-box-collapse right-boxed ion-ios-close"></span>
+		<div class="box-collapse-wrap form">
+			<form class="form-a">
+				<div class="row">
+					<div class="col-md-12 mb-2">
+						<div class="form-group">
+							<label for="Type">Từ khóa</label>
+							<input type="text" class="form-control form-control-lg form-control-a" placeholder="Keyword">
+						</div>
+					</div>
+					<div class="col-md-6 mb-2">
+						<div class="form-group">
+							<label for="Type">Loại</label>
+							<select class="form-control form-control-lg form-control-a" id="Type">
+								<option>All Type</option>
+								<option>For Rent</option>
+								<option>For Sale</option>
+								<option>Open House</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6 mb-2">
+						<div class="form-group">
+							<label for="city">City</label>
+							<select class="form-control form-control-lg form-control-a" id="city">
+								<option>All City</option>
+								<option>Alabama</option>
+								<option>Arizona</option>
+								<option>California</option>
+								<option>Colorado</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6 mb-2">
+						<div class="form-group">
+							<label for="bedrooms">Gác</label>
+							<select class="form-control form-control-lg form-control-a" id="bedrooms">
+								<option>Không chọn</option>
+								<option>Có</option>
+								<option>Không</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6 mb-2">
+						<div class="form-group">
+							<label for="price">Giá</label>
+							<select class="form-control form-control-lg form-control-a" id="price">
+								<option>Không giới hạn</option>
+								<option>500,000</option>
+								<option>1,000,000</option>
+								<option>1,500,000</option>
+								<option>2,000,000</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<button type="submit" class="btn btn-b">Tìm kiếm</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!--/ Form Search End /-->
+	<!--/ Nav Star /-->
+	<nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+		<div class="container">
+			<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault"
+					aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+
+			<a class="navbar-brand text-brand" href=""><img src="~/Content/Images/Logo/logo.jpg" style="height:70%; width:70px" /></a>
+			<button type="button" class="btn btn-link nav-search navbar-toggle-box-collapse d-md-none" data-toggle="collapse"
+					data-target="#navbarTogglerDemo01" aria-expanded="false">
+				<span class="fa fa-search" aria-hidden="true"></span>
+			</button>
+			<div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
+				<ul class="navbar-nav">
+					@{var session = Session["taikhoan"] as QuanLyNhaTro.TaiKhoan;
+						if (session.quyenSD.Equals("KhachThue"))
+						{
+							<li class="nav-item">
+								<a class="nav-link" href="@Url.Action("/Index")">Trang chủ</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Blog</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Liên hệ</a>
+							</li>
+						}
+					}
+
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+						   aria-haspopup="true" aria-expanded="false">
+							Tài khoản
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+							@{ session = Session["taikhoan"] as QuanLyNhaTro.TaiKhoan;
+								if (session.quyenSD.Equals("KhachThue"))
+								{
+									<a class="dropdown-item" href="@Url.Action("/viewKhachHangProfile")">Thông tin cá nhân</a>
+									<a data-bs-target="#shoppingcart-modal" data-bs-toggle="modal" class="dropdown-item" style="cursor:pointer">Giỏ hàng</a>
+									<a data-bs-target="#dondat-modal" data-bs-toggle="modal" class="dropdown-item" style="cursor:pointer">Đơn đặt</a>
+								}
+							}
+							<a class="dropdown-item" href="@Url.Action("LogOut", "Login")">Đăng xuất</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<!--User Dropdown Menu-->
+			<div class="action">
+				<div class="profile" onclick="menuToggle();">
+					@{
+						<img class="avatar" src="~/Content/Images/avatar/@session.avatar" alt="avatar">
+					}
+				</div>
+
+				<div class="menu">
+					<ul>
+
+						@{
+							if (session.quyenSD.Equals("KhachThue"))
+							{
+								<li>
+									<span class="material-icons icons-size">person</span>
+									<a href="@Url.Action("/viewKhachHangProfile")">Thông tin cá nhân</a>
+								</li>
+								<li>
+									<span class="material-icons icons-size">shopping_cart</span>
+									<a style="cursor:pointer" id="link-shoppingcart">Giỏ hàng</a>
+								</li>
+								<li>
+									<span class="material-icons icons-size">redeem</span>
+									<a style="cursor:pointer" id="link-dondat">Đơn đặt</a>
+								</li>
+							}
+
+						}
+
+
+						<li>
+							<span class="material-icons icons-size">logout</span>
+							<a href="@Url.Action("LogOut", "Login")">Đăng xuất</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<button type="button" class="btn btn-b-n navbar-toggle-box-collapse d-none d-md-block" data-toggle="collapse"
+					data-target="#navbarTogglerDemo01" aria-expanded="false">
+				<span class="fa fa-search" aria-hidden="true"></span>
+			</button>
+		</div>
+	</nav>
+	<!--/ Nav End /-->
+	<!-- JavaScript Libraries -->
+	<div id="content" class="container">
+		@RenderBody()
+	</div>
+	<section class="section-footer">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-sm-12 col-md-4">
+					<div class="widget-a text-center">
+						<div class="w-header-a">
+							<h3 class="w-title-a text-brand">5 chú báo</h3>
+						</div>
+						<div class="w-body-a">
+							<p class="w-text-a color-text-a">
+								Gồm các thành viên:<br>
+								Thang Hoàng Kháng<br>
+								Phạm Quốc Sử<br>
+								Phạm Huỳnh Anh<br>
+								Nguyễn Phước Trọng<br>
+								Đỗ Nhật Thanh<br>
+							</p>
+						</div>
+						<div class="w-footer-a">
+							<ul class="list-unstyled">
+								<li class="color-a">
+									<span class="color-text-a">Phone:</span> 0836420652
+								</li>
+								<li class="color-a">
+									<span class="color-text-a">Email:</span> khanghoang1611@gmail.com
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<nav class="nav-footer">
+						<ul class="list-inline">
+							<li class="list-inline-item">
+								<a href="#">Trang chủ</a>
+							</li>
+							<li class="list-inline-item">
+								<a href="#">About</a>
+							</li>
+							<li class="list-inline-item">
+								<a href="#">Nhà trọ</a>
+							</li>
+							<li class="list-inline-item">
+								<a href="#">Blog</a>
+							</li>
+							<li class="list-inline-item">
+								<a href="#">Liên hệ</a>
+							</li>
+						</ul>
+					</nav>
+					<div class="socials-a">
+						<ul class="list-inline">
+							<li class="list-inline-item">
+								<a href="#">
+									<i class="fa fa-facebook" aria-hidden="true"></i>
+								</a>
+							</li>
+							<li class="list-inline-item">
+								<a href="#">
+									<i class="fa fa-twitter" aria-hidden="true"></i>
+								</a>
+							</li>
+							<li class="list-inline-item">
+								<a href="#">
+									<i class="fa fa-instagram" aria-hidden="true"></i>
+								</a>
+							</li>
+							<li class="list-inline-item">
+								<a href="#">
+									<i class="fa fa-pinterest-p" aria-hidden="true"></i>
+								</a>
+							</li>
+							<li class="list-inline-item">
+								<a href="#">
+									<i class="fa fa-dribbble" aria-hidden="true"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<!--/ Footer End /-->
+	<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+	<div id="preloader"></div>
+
+	<!--Toast-->
+	<div class="toast-container position-fixed p-4" style="margin-right: 10px; z-index:20000000; top:0px; right:0px"></div>
+
+	<!-- Modal Confirm Delete -->
+	<div id="ModalConfirmDelete" class="modal fade" tabindex="-1">
+		<div class="modal-dialog modal-confirm">
+			<div class="modal-content">
+				<div class="modal-header flex-column">
+					<div class="icon-box">
+						<i class="material-icons">&#xE5CD;</i>
+					</div>
+					<h4 class="modal-title w-100">Bạn chắn chắn muốn xoá?</h4>
+					<button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<p>Bạn thật sự muốn xoá nó? Tiến trình không thể trở lại được.</p>
+				</div>
+				<div class="modal-footer justify-content-center">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ bỏ</button>
+					<button type="button" class="btn btn-danger btn-delete" id="">Xoá</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Modal ShoppingCart-->
+	<div class="modal fade" id="shoppingcart-modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true" style="height: auto" role="dialog">
+		<div class="modal-dialog modal-xl" id="modal_cart">
+			<div class="modal-content pl-4">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ModalLabel">Giỏ hàng</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="card">
+						<div class="row">
+							<div class="col-md-8 cart" id="list_itemCart" style=" max-height: 600px;overflow-y: scroll;">
+							</div>
+							<div class="col-md-4 summary">
+								<div><h5 class="mt-2"><b>Tổng cộng</b></h5></div>
+								<hr>
+								<div class="row">
+									<div class="col soluong" style="padding-left:0;">Số lượng: 0</div>
+									<div class="col text-right gia">0 VND</div>
+								</div>
+								<form>
+									<p>Loại thanh toán</p>
+									<select name="loaithanhtoan" class="loaithanhtoan">
+										<option class="text-muted" value="0.1" selected>Cọc 10%</option>
+										<option class="text-muted" value="0.2">Cọc 20%</option>
+										<option class="text-muted" value="0.3">Cọc 30%</option>
+										<option class="text-muted" value="1">Thanh toán tất cả</option>
+									</select>
+									<p>Mã giảm giá</p>
+									<input id="code" placeholder="Enter your code">
+								</form>
+								<div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+									<div class="col">Tổng giá:</div>
+									<div class="col text-right tonggia">0 VND</div>
+								</div>
+								<button class="btn btn_thanhtoan">Thanh toán</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer" style="padding-top:2px; margin-top:0px">
+					<button type="button" class="btn btn-secondary mt-0" data-bs-dismiss="modal">Đóng</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Modal DonDat-->
+	<div class="modal fade" id="dondat-modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true" role="dialog">
+		<div class="modal-dialog modal-xl" id="modal_cart">
+			<div class="modal-content pl-4">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ModalLabel">Đơn đặt của tôi</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body body_modaldondat" style="max-height:70vh;overflow-y: scroll;">
+				</div>
+				<div class="modal-footer" style="padding-top:2px; margin-top:0px">
+					<button type="button" class="btn btn-secondary mt-0" data-bs-dismiss="modal">Đóng</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Modal ChiTietDonDat-->
+	<div class="modal fade" id="chitietdondat-modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true" role="dialog">
+		<div class="modal-dialog modal-xl" id="modal_cart">
+			<div class="modal-content pl-4">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ModalLabel">Chi tiết đơn đặt</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body body_modalchitietdondat" style="max-height:70vh;overflow-y: scroll;">
+				</div>
+				<div class="modal-footer" style="padding-top:2px; margin-top:0px">
+					<button class="btn btn-info" data-bs-target="#chitiet-modal" data-bs-toggle="modal">Trở về</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="~/Assets/Home/lib/jquery/jquery.min.js"></script>
+	<script src="~/Assets/Home/lib/jquery/jquery-migrate.min.js"></script>
+	<script src="~/Assets/Home/lib/popper/popper.min.js"></script>
+	<script src="~/Assets/Home/lib/bootstrap/js/bootstrap.min.js"></script>
+	<script src="~/Assets/Home/lib/easing/easing.min.js"></script>
+	<script src="~/Assets/Home/lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="~/Assets/Home/lib/scrollreveal/scrollreveal.min.js"></script>
+	<!-- Contact Form JavaScript File -->
+	<script src="~/Assets/Home/contactform/contactform.js"></script>
+	<!--Bootstrap 5.3 -->
+	@*	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+	*@	<!-- Template Main Javascript File -->
+	<script src="~/Assets/Home/js/main.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+	@*ChonDropDownListPhuHopVoiQuyenSD*@
+	<script src="~/Scripts/jquery-3.6.4.js"></script>
+	<!--Script Toast -->
+	<script>
+		function AddToast(message) {
+			$('<div class="toast" data-bs-delay="2000" data-bs-autohide="true" data-bs-animation="true" role="alert" aria-live="assertive" aria-atomic="true"><div class="toast-header"><img style="width:30px" src="https://localhost:44329/Assets/Home/img/icon_notification.png" class="rounded me-2" alt="..."><strong class="me-auto">Thông báo</strong><small class="text-muted"></small><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div><div class="toast-body">' + message + '</div></div >').appendTo(".toast-container");
+			const extoast = $('.toast').last()
+			const toast = new bootstrap.Toast(extoast)
+			toast.show()
+		}
+
+		function ShowConfirmBox(id_NT) {
+			$('#ModalConfirmDelete').find('.btn-delete').attr('id', id_NT)
+			const myModal = new bootstrap.Modal($('#ModalConfirmDelete'))
+			myModal.show()
+		}
+
+		$(document).ready(function () {
+			$('.btn-delete').click(function () {
+				const myModal = bootstrap.Modal.getInstance($('#ModalConfirmDelete'))
+				myModal.hide()
+				DeleteNhaTro($('#ModalConfirmDelete').find('.btn-delete').attr('id'))
+			})
+		})
+
+		function DeleteNhaTro(id_NT) {
+			$.ajax({
+				url: '/Home/DeleteNhaTro',
+				type: 'post',
+				data: { id_NT: id_NT },
+				async: false,
+				success: function (data) {
+					if (data == 0) {
+						AddToast('Xoá nhà trọ thành công!')
+					}
+					
+					else
+						if (data == 1)
+							AddToast('Không tìm thấy nhà trọ này!')
+						else
+							AddToast('Lỗi khi xoá!')
+				}
+			})
+			
+		}
+	</script>
+	<!--End Script Toast -->
+	@*	DropDownList*@
+	<script>
+		function menuToggle() {
+			const toggleMenu = document.querySelector('.menu');
+			toggleMenu.classList.toggle('active')
+		}
+	</script>
+
+	@*	GioHang*@
+
+	<script>
+		//Load Data Gio Hang
+		function loadCartModal() {
+			$.ajax({
+				url: '/ShoppingCart/ModalShoppingCart',
+				type: 'post',
+				async: false,
+				success: function (data) {
+					$('#list_itemCart').replaceWith($(data).find('#list_itemCart'));
+
+				}
+			})
+		}
+		//Event Listener click
+		$(document).ready(function () {
+			$('#link-shoppingcart').click(function () {
+				loadCartModal()
+				$('#shoppingcart-modal').modal('show')
+			})
+		});
+
+		$('.btn_addToCart').click(function () {
+			$('#hehe').toast('show')
+			var id_P = Number($(this).val())
+			$.ajax({
+				url: '/ShoppingCart/AddToCart',
+				type: 'POST',
+				data: {
+					id_P: id_P,
+				},
+				success: function (data) {
+					if (data.result == 0)
+						AddToast('Thêm vào giỏ hàng thành công!')
+					else
+						if (data.result == 1)
+							AddToast('Lỗi khi thêm vào giỏ hàng!')
+						else
+							AddToast('Sản phẩm đã có trong giỏ hàng!')
+				}
+			})
+		})
+	</script>
+
+	<!--Modal Đơn Đặt-->
+	<script>
+					$(document).ready(function () {
+							$('#link-dondat').click(function () {
+								loadDonDatModal()
+								$('#dondat-modal').modal('show')
+							})
+						})
+
+					function loadDonDatModal() {
+						$.ajax({
+							url: '/DonDat/ModalDonDat',
+							type: 'post',
+							async: false,
+							success: function (data) {
+								$('.body_modaldondat').replaceWith($(data).find('.body_modaldondat'))
+							}
+						})
+					}
+	</script>
+
+	<!-- My JS -->
+	@*<script src="~/Assets/Home/js/my_main.js"></script>*@
+</body>
+</html>

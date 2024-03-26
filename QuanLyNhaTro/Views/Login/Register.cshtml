@@ -1,0 +1,82 @@
+﻿@model QuanLyNhaTro.TaiKhoan
+
+@{
+    ViewBag.Title = "Đăng ký";
+    Layout = "~/Views/Shared/_SignUp.cshtml";
+}
+
+<div class="limiter">
+	<div class="container-login100" style="background-image: url('../../Assets/Login/images/bg-01.jpg');">
+		<div class="wrap-login100 p-l-55 p-r-55 p-t-10 p-b-20">
+			<form class="login100-form validate-form" action="Register" method="post">
+				@Html.AntiForgeryToken()
+				<span class="login100-form-title p-b-30">
+					Đăng ký
+				</span>
+
+				<div class="wrap-input100 validate-input m-b-23" data-validate="Tên đăng nhập là bắt buộc">
+					<span class="label-input100">Tài khoản</span>
+					<input class="input100" type="text" name="userName" placeholder="Nhập tài khoản">
+					<span class="focus-input100" data-symbol="&#xf206;"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input m-b-23" data-validate="Mật khẩu là bắt buộc">
+					<span class="label-input100">Mật khẩu</span>
+					<input class="input100" type="password" name="password" placeholder="Nhập mật khẩu">
+					<span class="focus-input100" data-symbol="&#xf190;"></span>
+				</div>
+				<div class="wrap-input100 validate-input" data-validate="Mật khẩu là bắt buộc">
+					<span class="label-input100">Nhập lại mật khẩu</span>
+					<input class="input100" type="password" name="confirmpw" placeholder="Nhập lại mật khẩu">
+					<span class="focus-input100" data-symbol="&#xf190;"></span>
+				</div>
+				<div class="text-center p-t-10">
+					@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+				</div>
+
+				<div class="text-center m-t-10">
+					<label class="radio-inline m-r-30">
+						<input type="radio" name="accountType" id="ChuTro" value="ChuTro" class="m-r-20" checked="checked">Chủ trọ
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="accountType" id="KhachThue" value="KhachThue" class="m-r-20">Khách thuê
+					</label>
+				</div>
+				
+				<div class="container-login100-form-btn p-t-20">
+					<div class="wrap-login100-form-btn">
+						<div class="login100-form-bgbtn"></div>
+						<button class="login100-form-btn" type="submit">
+							Đăng ký
+						</button>
+					</div>
+				</div>
+
+				<div class="txt1 text-center p-t-30 p-b-20">
+					<span>
+						Hoặc đăng nhập bằng
+					</span>
+				</div>
+
+				<div class="flex-c-m">
+					<a href="#" class="login100-social-item bg1">
+						<i class="fa fa-facebook"></i>
+					</a>
+
+					<a href="#" class="login100-social-item bg2">
+						<i class="fa fa-twitter"></i>
+					</a>
+
+					<a href="#" class="login100-social-item bg3">
+						<i class="fa fa-google"></i>
+					</a>
+				</div>
+
+				<div class="flex-col-c p-t-10">
+					@Html.ActionLink(">> Trở về đăng nhập", "Login")
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,171 @@
+﻿@model PagedList.IPagedList<QuanLyNhaTro.TaiKhoan>
+@using PagedList.Mvc;
+@{
+	ViewBag.Title = "TaiKhoan";
+	Layout = "~/Views/Shared/_LayoutAdmin2.cshtml";
+}
+
+
+
+<script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<link href="~/Content/fontawesome-free-6.4.0-web/css/all.min.css" rel="stylesheet" />
+<style>
+	.Page-tittle {
+		font-weight: 600;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		margin: 20px 0 12px 8px;
+	}
+
+	.account-option__list {
+		display: flex;
+		margin-bottom: 20px;
+		margin-left: 12px;
+		justify-content: space-around;
+	}
+
+	.account-option__item {
+		display: flex;
+	}
+
+		.account-option__item a {
+		}
+
+	.account-option__item-select {
+		display: flex;
+	}
+
+		.account-option__item-select select {
+			margin-left: 8px;
+			width: 150px;
+		}
+
+	.account-option__item-heading {
+	}
+
+	#btnEdit, #btnDelete, #btnDetailt {
+		font-size: 16px;
+		padding: 4px;
+	}
+</style>
+
+
+
+<h2 class="Page-tittle">Danh sách người dùng</h2>
+
+
+<div class="account-option__list">
+	<div class="account-option__item">
+		<a class="btn btn-primary" href="/Accounts/themTaiKhoan">
+			Tạo tài khoản
+		</a>
+	</div>
+	<div class="account-option__item">
+
+		<a href="/KhachHang/dsKhachHang">
+			<h4 class="account-option__item-heading" style="text-decoration:underline;">
+
+				Danh sách khách hàng
+			</h4>
+		</a>
+	</div>
+	<div class="account-option__item">
+		@using (Html.BeginForm("TaiKhoan", "Accounts", FormMethod.Get))
+		{
+			<h4>
+				Tìm kiếm theo tên/ quyền sử dụng @Html.TextBox("searchString", ViewBag.Current as string)
+				<input type="submit" value="Search" />
+			</h4>
+		}
+	</div>
+</div>
+
+
+<table id="table" class="table table-bordered" style=" background-color: #7aa88d8f;">
+	<tr class="" style="height:50px; font-size: 20px">
+		<th class="text-center">
+			Tên tài khoản
+		</th>
+		<th class="text-center">
+			Mật khẩu
+		</th>
+		<th class="text-center">
+			<a href="@Url.Content("/Accounts/TaiKhoan?sortOrder=" + ViewBag.QuyenSDSortParm)">
+				Quyền sử dụng
+				<i class="fa-solid fa-chevron-down"></i>
+			</a>
+
+		</th>
+		<th class="text-center">
+			Hình ảnh
+		</th>
+		<th class="text-center">
+			Thao tác
+		</th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr style="font-size: 16px ">
+			<th class="text-center">
+				@Html.DisplayFor(modelItem => item.userName)
+			</th>
+			<td class="text-center">
+				@Html.DisplayFor(modelItem => item.password)
+			</td>
+			<td class="text-center">
+				@Html.DisplayFor(modelItem => item.quyenSD)
+			</td>
+			<td class="text-center">
+				<img src="@Url.Content("~/Content/Images/avatar/" + item.avatar)" style="width:50px;" />
+
+			</td>
+			<td class="text-center">
+
+				<a href="@Url.Content("/Accounts/suaTaiKhoan?userName=" + item.userName)" id="btnEdit" class="edit-icon" onclick="">
+					<i class="fa-solid fa-pen-to-square"></i>
+				</a>
+				<a href="@Url.Content("/Accounts/xoaTaiKhoan?userName=" + item.userName)" id="btnDelete" class="delete-icon" onclick="">
+					<i class="fa-solid fa-trash"></i>
+				</a>
+
+
+			</td>
+		</tr>
+	}
+
+</table>
+<div>
+	@*@Html.PagedListPager(Model, Page => Url.Action("TaiKhoan", "Accounts", new { page = Page }))*@
+</div>
+<script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+<br />
+
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("TaiKhoan",
+	   new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#selectquyenSD').on('change', function () {
+            locquyenSD($(this).val())
+        })
+    })
+    function locquyenSD(quyenSD) {
+        $.ajax({
+            type: "POST",
+            url: "/Accounts/showTaiKhoan",
+            data: { quyenSD: quyenSD },
+            success: function (data) {
+                console.log(data)
+                $("table").replaceWith($(data).find('table'));
+            }
+        })
+    }
+
+
+</script>

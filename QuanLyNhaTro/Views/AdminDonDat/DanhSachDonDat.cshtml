@@ -1,0 +1,42 @@
+﻿
+@model IEnumerable<QuanLyNhaTro.DonDatPhong>
+
+@{
+    ViewBag.Title = "DanhSachDonDat";
+    Layout = "~/Views/Shared/_LayoutAdmin2.cshtml";
+}
+
+
+<div>
+    <table id="datatable">
+        <thead>
+            <tr>
+                <th>ID Đơn Đặt</th>
+                <th>ID Khách Hàng</th>
+                <th>Ngày Đặt</th>
+                <th>Trạng Thái</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+</div>
+<script src="~/Scripts/jquery-3.6.4.js"></script>
+<script src="~/Assets/plugin-table/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#datatable').dataTable({
+            ajax: {
+                url: "/AdminDonDat/GetDataPluginTable",
+                type: "GET",
+                datatype: "json",
+            },
+            columns: [
+                { data: 'id_DDP' },
+                { data: 'id_KH' },
+                { data: 'V' },
+                { data: 'trangthai_DDP' },
+            ]
+        })
+    })
+</script>
